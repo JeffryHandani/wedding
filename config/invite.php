@@ -30,6 +30,7 @@ return [
             'time' => '11:00',
             'timezone' => 'Asia/Jakarta',
             'maps_url' => 'https://maps.app.goo.gl/bg2N2gsNPU32XGUp9',
+            'watch_url' => 'https://example.com/live',
         ],
         [
             'title' => 'Wedding Reception',
@@ -41,6 +42,7 @@ return [
             'time' => '18:30',
             'timezone' => 'Asia/Jakarta',
             'maps_url' => 'https://maps.app.goo.gl/bg2N2gsNPU32XGUp9',
+            'watch_url' => null,
         ],
     ],
     'media' => [
@@ -66,6 +68,22 @@ return [
         ['label' => 'Gift Registry', 'url' => 'https://example.com/registry'],
         ['label' => 'Online Giving', 'url' => 'https://example.com/giving'],
     ],
+    'gifts_modal' => [
+        [
+            'label' => 'BCA',
+            'logo' => '/images/bank_bca.svg',
+            'account_name' => 'Brian Jericho',
+            'account_number' => '6240218591',
+            'qr_image' => '/images/qr_placeholder.svg',
+        ],
+        [
+            'label' => 'QRIS',
+            'logo' => null,
+            'account_name' => null,
+            'account_number' => null,
+            'qr_image' => '/images/qr_placeholder.svg',
+        ],
+    ],
     'custom_actions' => [
         ['label' => 'Hotel Booking', 'url' => 'https://example.com/hotel'],
         ['label' => 'Dress Code', 'url' => 'https://example.com/dresscode'],
@@ -73,4 +91,12 @@ return [
         ['label' => 'Contact Us', 'url' => 'mailto:hello@example.com'],
     ],
     'languages' => ['en', 'id'],
+    'assets' => [
+        'hero_desktop' => '/images/hero_bg.svg',
+        'hero_mobile' => '/images/hero_bg.svg',
+        'ornament_divider' => '/images/ornament_divider.svg',
+        'icon_matrimony' => '/images/icon_rings.svg',
+        'icon_reception' => '/images/icon_glasses.svg',
+        'gift_illustration' => '/images/gift_sketch.svg',
+    ],
 ];

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+  <defs>
+    <linearGradient id="paper" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8f8f8"/>
+      <stop offset="100%" stop-color="#eaeaea"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </defs>
+  <rect x="40" y="64" width="140" height="120" rx="10" fill="url(#paper)" stroke="#2e2e2e" stroke-width="2"/>
+  <rect x="108" y="64" width="12" height="120" fill="#3a3a3a"/>
+  <rect x="40" y="64" width="140" height="26" rx="3" fill="#ededed" stroke="#2e2e2e" stroke-width="2"/>
+  <g stroke="#2e2e2e" stroke-width="2" fill="none">
+    <path d="M110 64c0 0 8-20 22-22 12-2 22 8 22 8s-12 2-20 10-12 14-12 14h-12z"/>
+    <path d="M110 64c0 0-8-20-22-22-12-2-22 8-22 8s12 2 20 10 12 14 12 14h12z"/>
+  </g>
+  <g stroke="#444" stroke-width="1" opacity="0.6">
+    <path d="M52 90h116M52 98h116M52 106h116M52 114h116M52 122h116"/>
+    <path d="M52 140h116M52 148h116M52 156h116M52 164h116M52 172h116"/>
+  </g>
+  <ellipse cx="110" cy="190" rx="48" ry="10" fill="#2e2e2e" opacity="0.2" filter="url(#shadow)"/>
+</svg>

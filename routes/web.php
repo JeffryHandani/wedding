@@ -20,3 +20,4 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 Route::post('/admin/login', [AdminController::class, 'loginSubmit'])->name('admin.login');
 Route::get('/admin/data', [AdminController::class, 'data'])->name('admin.data');
 Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+Route::get('/test/{locale?}', [InvitationController::class, 'test'])->name('invite.test');
