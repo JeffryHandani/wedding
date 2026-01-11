@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ __('invite.title') }}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root { --bg:#fff7fa; --card:rgba(255,255,255,0.8); --border:#f2dce5; --text:#2c1b1f; --muted:#6b4c55; --primary:#b03060; --primary-2:#ff7aa2; --radius:16px; }
         * { box-sizing:border-box; }
@@ -57,9 +57,28 @@
         .event-card .addr { color:#6b4c55; margin-top:8px; }
         .event-card .dt { margin-top:12px; font-weight:600; color:#2f2327; }
         .btn-map { display:inline-block; margin-top:16px; padding:12px 16px; border-radius:12px; background:#4aa38b; color:#fff; text-decoration:none; font-weight:700; }
+        #coupleIntro { position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center; background: radial-gradient(1200px 800px at 50% 0%, rgba(255,235,243,0.95) 0%, rgba(255,247,250,0.9) 50%, rgba(255,255,255,0.7) 100%); backdrop-filter:saturate(140%) blur(6px); }
+        .intro-wrap { position:relative; text-align:center; padding:24px; }
+        .intro-names { font-family: Great Vibes, Playfair Display, serif; font-size: clamp(2.6rem, 9vw, 7rem); line-height:1; color:#b03060; letter-spacing:2px; text-shadow: 0 8px 24px rgba(176,48,96,0.2); }
+        .intro-amp { display:inline-block; margin:0 18px; font-size: .8em; opacity:.7; }
+        .intro-sub { margin-top:10px; font-family:Poppins; color:#6b4c55; letter-spacing:4px; font-weight:700; }
+        .intro-glow { position:absolute; left:50%; top:50%; width:520px; height:520px; transform:translate(-50%,-50%); border-radius:50%; filter:blur(80px); background: radial-gradient(circle at 50% 50%, rgba(255,200,220,0.8), rgba(255,240,248,0.6)); z-index:-1; }
+        .intro-btn { margin-top:20px; padding:12px 18px; border-radius:999px; background:#b03060; color:#fff; border:none; font-weight:700; box-shadow:0 14px 30px rgba(176,48,96,0.3); }
+        .intro-letter { display:inline-block; opacity:0; transform:translateY(24px) scale(0.98); }
+        .intro-letter.show { opacity:1; transform:none; transition: transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s; }
+        #introCanvas { position:fixed; inset:0; z-index:99; pointer-events:none; }
     </style>
 </head>
 <body>
+    <canvas id="introCanvas"></canvas>
+    <div id="coupleIntro">
+        <div class="intro-wrap">
+            <div class="intro-glow"></div>
+            <div id="introNames" class="intro-names"></div>
+            <div class="intro-sub">CELEBRATING LOVE</div>
+            <button id="introSkip" class="intro-btn">Enter</button>
+        </div>
+    </div>
     <header>
         <div class="container">
             <h1>{{ __('invite.title') }}</h1>
@@ -278,6 +297,84 @@
                     if(dataEl) dataEl.innerHTML = html;
                 }
             });
+        }
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if(!prefersReduced){
+            const coupleIntro = document.getElementById('coupleIntro');
+            const introNames = document.getElementById('introNames');
+            const introSkip = document.getElementById('introSkip');
+            const introCanvas = document.getElementById('introCanvas');
+            const couple = { groom: "{{ $invite['couple']['groom'] ?? 'Groom' }}", bride: "{{ $invite['couple']['bride'] ?? 'Bride' }}" };
+            function splitLetters(text){
+                const frag = document.createDocumentFragment();
+                const amp = document.createElement('span');
+                amp.className = 'intro-amp intro-letter';
+                amp.textContent = '&';
+                const parts = [ ...text.groom ], tail = [ ...text.bride ];
+                const mk = ch => { const s = document.createElement('span'); s.className = 'intro-letter'; s.textContent = ch; return s; };
+                parts.forEach(ch=>frag.appendChild(mk(ch)));
+                frag.appendChild(amp);
+                tail.forEach(ch=>frag.appendChild(mk(ch)));
+                return frag;
+            }
+            function showCoupleIntro(){
+                if(!coupleIntro || !introNames) return;
+                coupleIntro.style.display = 'flex';
+                introNames.textContent = '';
+                introNames.appendChild(splitLetters(couple));
+                const letters = Array.from(introNames.querySelectorAll('.intro-letter'));
+                letters.forEach((el,i)=>{ setTimeout(()=>el.classList.add('show'), 120 + i*80); });
+                launchFireworks();
+                setTimeout(closeIntro, 5200);
+            }
+            function closeIntro(){
+                if(!coupleIntro) return;
+                coupleIntro.style.opacity = '1';
+                coupleIntro.style.transition = 'opacity .6s ease';
+                coupleIntro.style.opacity = '0';
+                setTimeout(()=>{ coupleIntro.style.display = 'none'; if(window.stopFireworks) window.stopFireworks(); }, 600);
+            }
+            setTimeout(showCoupleIntro, 300);
+            if(introSkip){ introSkip.addEventListener('click', closeIntro); }
+            function launchFireworks(){
+                const c = document.getElementById('introCanvas');
+                if(!c) return;
+                const ctx = c.getContext('2d');
+                let w = c.width = window.innerWidth, h = c.height = window.innerHeight;
+                let particles = [];
+                let running = true;
+                const colors = ['#ffadbc','#ff6f91','#ffd1dc','#fff0f5','#b03060','#ff7aa2'];
+                function burst(x,y){
+                    for(let i=0;i<60;i++){
+                        const ang = Math.random()*Math.PI*2;
+                        const spd = 2+Math.random()*5;
+                        particles.push({ x, y, vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd, life: 60+Math.random()*30, r: 2+Math.random()*2, c: colors[Math.floor(Math.random()*colors.length)] });
+                    }
+                }
+                burst(w*0.4,h*0.45); burst(w*0.6,h*0.45); burst(w*0.5,h*0.35);
+                function step(){
+                    if(!running) return;
+                    ctx.clearRect(0,0,w,h);
+                    for(let i=particles.length-1;i>=0;i--){
+                        const p = particles[i];
+                        p.life -= 1;
+                        if(p.life<=0){ particles.splice(i,1); continue; }
+                        p.vy += 0.04;
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        ctx.globalAlpha = Math.max(0, p.life/90);
+                        ctx.fillStyle = p.c;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+                        ctx.fill();
+                    }
+                    requestAnimationFrame(step);
+                }
+                window.addEventListener('resize', ()=>{ w = c.width = window.innerWidth; h = c.height = window.innerHeight; });
+                step();
+                c.addEventListener('click', e=>{ burst(e.clientX, e.clientY); });
+                window.stopFireworks = function(){ running = false; ctx.clearRect(0,0,w,h); };
+            }
         }
         if(adminToggle && adminPanel){
             @if(session('open_admin'))

@@ -10,6 +10,10 @@ return [
         'venue_address' => 'Jl HR Jl. Rasuna Said, Salembaran, Kosambi, Tangerang Regency, Banten 15214, Indonesia',
         'general_info' => 'Join us for a celebration of love. Dinner and dancing to follow.',
     ],
+    'couple' => [
+        'groom' => 'Arka',
+        'bride' => 'Keisha',
+    ],
     'events' => [
         [
             'title' => 'Holy Matrimony',
