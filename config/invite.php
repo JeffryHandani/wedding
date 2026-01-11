@@ -14,6 +14,11 @@ return [
         'groom' => 'Jeffry',
         'bride' => 'Priscilla',
     ],
+    'families' => [
+        'groom_parents' => ['Mr. Eddy Jericho', 'Mrs. Ana Muliawan'],
+        'bride_parents' => ['Mr. Ridwan', 'Mrs. Corry Hanjaya'],
+    ],
+    'scripture' => "And now these three remain: faith, hope, and love. But the greatest of these is love.",
     'events' => [
         [
             'title' => 'Holy Matrimony',

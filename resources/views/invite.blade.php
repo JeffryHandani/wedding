@@ -40,8 +40,8 @@
         table { width:100%; border-collapse:collapse; }
         th, td { border-bottom:1px solid #eee; padding:8px; text-align:left; font-size: 0.95rem; }
         .notice { margin-top:6px; color:var(--primary); font-weight:600; }
-        .hero { margin-top:16px; overflow:hidden; border-radius:20px; border:1px solid var(--border); box-shadow:0 20px 40px rgba(176,48,96,0.08); }
-        .hero img { width:100%; display:block; }
+        .hero { margin-top:0; overflow:hidden; height:100vh; border:none; border-radius:0; box-shadow:none; width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); }
+        .hero img { width:100%; height:100%; object-fit:cover; display:block; }
         .gallery { display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; }
         @media (max-width: 860px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
         .gallery img { width:100%; height:180px; object-fit:cover; border-radius:12px; border:1px solid var(--border); cursor:pointer; transition:transform .2s ease, box-shadow .2s ease; box-shadow:0 6px 18px rgba(0,0,0,0.04); }
@@ -58,6 +58,12 @@
         .event-card .addr { color:#6b4c55; margin-top:8px; }
         .event-card .dt { margin-top:12px; font-weight:600; color:#2f2327; }
         .btn-map { display:inline-block; margin-top:16px; padding:12px 16px; border-radius:12px; background:#4aa38b; color:#fff; text-decoration:none; font-weight:700; }
+        .quote { text-align:center; margin:28px 0; font-family: Playfair Display, serif; font-size:1.2rem; color:#4b3c42; }
+        .people { display:grid; grid-template-columns: 1fr 1fr; gap:20px; }
+        @media (max-width: 860px) { .people { grid-template-columns: 1fr; } }
+        .person-card { text-align:center; background:var(--card); border:1px solid var(--border); border-radius:20px; padding:24px; box-shadow:0 12px 30px rgba(176,48,96,0.08); }
+        .person-card h3 { font-family: Playfair Display, serif; font-size:2rem; margin:0 0 6px; color:#2f2327; letter-spacing:1px; }
+        .person-card .parents { margin-top:8px; color:#6b4c55; }
         #coupleIntro { position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center; background: radial-gradient(1200px 800px at 50% 0%, rgba(255,235,243,0.95) 0%, rgba(255,247,250,0.9) 50%, rgba(255,255,255,0.7) 100%); backdrop-filter:saturate(140%) blur(6px); }
         .intro-wrap { position:relative; text-align:center; padding:24px; }
         .intro-names { font-family: Great Vibes, Playfair Display, serif; font-size: clamp(2.6rem, 9vw, 7rem); line-height:1; color:#b03060; letter-spacing:2px; text-shadow: 0 8px 24px rgba(176,48,96,0.2); }
@@ -102,8 +108,20 @@
             <img src="{{ $invite['media']['hero_image_url'] }}" alt="Wedding banner">
         </div>
         @endif
-        
-        <div class="section" style="margin-top:24px;">
+        <div class="quote">{{ $invite['scripture'] ?? '' }}</div>
+        <div class="people" style="margin-bottom:16px;">
+            <div class="person-card">
+                <h3>The Groom</h3>
+                <div style="font-family: Great Vibes, Playfair Display, serif; font-size:2.4rem; color:#b03060;">{{ $invite['couple']['groom'] }}</div>
+                <div class="parents">Second Son of<br>{{ implode(' & ', $invite['families']['groom_parents'] ?? []) }}</div>
+            </div>
+            <div class="person-card">
+                <h3>The Bride</h3>
+                <div style="font-family: Great Vibes, Playfair Display, serif; font-size:2.4rem; color:#b03060;">{{ $invite['couple']['bride'] }}</div>
+                <div class="parents">First Daughter of<br>{{ implode(' & ', $invite['families']['bride_parents'] ?? []) }}</div>
+            </div>
+        </div>
+        <div class="section" style="margin-top:0;">
             <h2>{{ __('invite.countdown') }}</h2>
             <div class="countdown" id="countdown">
                 <div class="tile"><div id="cd-days">0</div><small>{{ __('invite.days') }}</small></div>
