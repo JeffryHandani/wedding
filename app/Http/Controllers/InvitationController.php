@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Wish;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\App;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Config;
 
 class InvitationController extends Controller
 {
@@ -18,7 +19,6 @@ class InvitationController extends Controller
         App::setLocale($locale);
 
         $guestName = $request->query('to');
-
         $date = Carbon::createFromFormat('Y-m-d H:i',
             $invite['event']['date'] . ' ' . $invite['event']['time'],
             $invite['event']['timezone']

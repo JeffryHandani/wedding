@@ -33,9 +33,10 @@
         iframe { width:100%; height:360px; border:0; border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,0.06); }
         video { width:100%; height:auto; border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,0.06); }
         .countdown { display:flex; gap:12px; }
-        .tile { flex:1; text-align:center; background:linear-gradient(180deg,#fff 0%, #fff6fa 100%); padding:16px; border-radius:12px; min-width:80px; border:1px solid var(--border); box-shadow:0 6px 18px rgba(0,0,0,0.04); }
-        .tile div { font-size:2rem; font-weight:700; color:var(--primary); font-family:Poppins; }
-        .tile small { display:block; margin-top:2px; color:#72555d; letter-spacing:0.4px; }
+        .tile { flex:1; text-align:center; background:linear-gradient(180deg,#fff 0%, #fff6fa 100%); padding:16px; border-radius:12px; min-width:50px; border:1px solid var(--border); box-shadow:0 6px 18px rgba(0,0,0,0.04); }
+        .tile div { font-size:1.5rem; font-weight:700; color:var(--primary); font-family:Poppins; }
+        .tile small { display:block; margin-top:2px; color:#72555d; letter-spacing:0.4px; font-size:0.8rem; }
+        @media (max-width: 860px) { .tile small { display:block; margin-top:2px; color:#72555d; letter-spacing:0.4px;font-size:0.5rem; } }
         table { width:100%; border-collapse:collapse; }
         th, td { border-bottom:1px solid #eee; padding:8px; text-align:left; font-size: 0.95rem; }
         .notice { margin-top:6px; color:var(--primary); font-weight:600; }
@@ -66,7 +67,8 @@
         .intro-btn { margin-top:20px; padding:12px 18px; border-radius:999px; background:#b03060; color:#fff; border:none; font-weight:700; box-shadow:0 14px 30px rgba(176,48,96,0.3); }
         .intro-letter { display:inline-block; opacity:0; transform:translateY(24px) scale(0.98); }
         .intro-letter.show { opacity:1; transform:none; transition: transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s; }
-        #introCanvas { position:fixed; inset:0; z-index:99; pointer-events:none; }
+        #introCanvas { position:fixed; inset:0; z-index:2; pointer-events:none; }
+        #dovesCanvas { position:fixed; inset:0; z-index:1; pointer-events:none; }
     </style>
 </head>
 <body>
@@ -100,6 +102,22 @@
             <img src="{{ $invite['media']['hero_image_url'] }}" alt="Wedding banner">
         </div>
         @endif
+        
+        <div class="section" style="margin-top:24px;">
+            <h2>{{ __('invite.countdown') }}</h2>
+            <div class="countdown" id="countdown">
+                <div class="tile"><div id="cd-days">0</div><small>{{ __('invite.days') }}</small></div>
+                <div class="tile"><div id="cd-hours">0</div><small>{{ __('invite.hours') }}</small></div>
+                <div class="tile"><div id="cd-min">0</div><small>{{ __('invite.minutes') }}</small></div>
+                <div class="tile"><div id="cd-sec">0</div><small>{{ __('invite.seconds') }}</small></div>
+            </div>
+            <h2 style="margin-top:16px;">Wedding Video</h2>
+            @if(!empty($invite['media']['video_file_url']))
+                <video controls src="{{ $invite['media']['video_file_url'] }}"></video>
+            @else
+                <iframe src="{{ $invite['media']['video_embed_url'] }}" allowfullscreen></iframe>
+            @endif
+        </div>
         @if(!empty($invite['events']) && is_array($invite['events']))
         <div class="wedding-title">THE WEDDING</div>
         <div class="event-grid" style="margin-bottom:16px;">
@@ -117,35 +135,7 @@
             @endforeach
         </div>
         @endif
-        <div class="grid">
-            <div class="section">
-                <h2>{{ __('invite.date_time') }}</h2>
-                <p>{{ $invite['event']['date'] }} {{ $invite['event']['time'] }} ({{ $invite['event']['timezone'] }})</p>
-                <h2 style="margin-top:16px;">{{ __('invite.venue') }}</h2>
-                <p><strong>{{ $invite['event']['venue_name'] }}</strong><br>{{ $invite['event']['venue_address'] }}</p>
-                <h2 style="margin-top:16px;">{{ __('invite.info') }}</h2>
-                <p class="lead">{{ $invite['event']['general_info'] }}</p>
-                <div class="actions" style="margin-top:8px;">
-                    <a class="btn-primary" href="{{ route('calendar.ics') }}">{{ __('invite.calendar') }}</a>
-                </div>
-            </div>
 
-            <div class="section">
-                <h2>{{ __('invite.countdown') }}</h2>
-                <div class="countdown" id="countdown">
-                    <div class="tile"><div id="cd-days">0</div><small>{{ __('invite.days') }}</small></div>
-                    <div class="tile"><div id="cd-hours">0</div><small>{{ __('invite.hours') }}</small></div>
-                    <div class="tile"><div id="cd-min">0</div><small>{{ __('invite.minutes') }}</small></div>
-                    <div class="tile"><div id="cd-sec">0</div><small>{{ __('invite.seconds') }}</small></div>
-                </div>
-                <h2 style="margin-top:16px;">Wedding Video</h2>
-                @if(!empty($invite['media']['video_file_url']))
-                    <video controls src="{{ $invite['media']['video_file_url'] }}"></video>
-                @else
-                    <iframe src="{{ $invite['media']['video_embed_url'] }}" allowfullscreen></iframe>
-                @endif
-            </div>
-        </div>
 
         @if(!empty($invite['media']['gallery']) && is_array($invite['media']['gallery']))
         <div class="section" style="margin-top:16px;">
@@ -194,7 +184,7 @@
             </div>
         </div>
 
-        <div class="grid" style="margin-top:16px;">
+        {{-- <div class="grid" style="margin-top:16px;">
             <div class="section">
                 <h2>{{ __('invite.map') }}</h2>
                 <iframe src="{{ $invite['media']['map_embed_url'] }}"></iframe>
@@ -213,7 +203,7 @@
                     @endforeach
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </main>
 
@@ -324,7 +314,7 @@
                 introNames.appendChild(splitLetters(couple));
                 const letters = Array.from(introNames.querySelectorAll('.intro-letter'));
                 letters.forEach((el,i)=>{ setTimeout(()=>el.classList.add('show'), 120 + i*80); });
-                launchFireworks();
+                startIntroBokeh();
                 setTimeout(closeIntro, 5200);
             }
             function closeIntro(){
@@ -332,48 +322,58 @@
                 coupleIntro.style.opacity = '1';
                 coupleIntro.style.transition = 'opacity .6s ease';
                 coupleIntro.style.opacity = '0';
-                setTimeout(()=>{ coupleIntro.style.display = 'none'; if(window.stopFireworks) window.stopFireworks(); }, 600);
+                setTimeout(()=>{ coupleIntro.style.display = 'none'; if(window.setIntroAmbientAlpha) window.setIntroAmbientAlpha(0.25); }, 600);
             }
             setTimeout(showCoupleIntro, 300);
             if(introSkip){ introSkip.addEventListener('click', closeIntro); }
-            function launchFireworks(){
+            function startIntroBokeh(){
                 const c = document.getElementById('introCanvas');
                 if(!c) return;
                 const ctx = c.getContext('2d');
                 let w = c.width = window.innerWidth, h = c.height = window.innerHeight;
-                let particles = [];
-                let running = true;
-                const colors = ['#ffadbc','#ff6f91','#ffd1dc','#fff0f5','#b03060','#ff7aa2'];
-                function burst(x,y){
-                    for(let i=0;i<60;i++){
-                        const ang = Math.random()*Math.PI*2;
-                        const spd = 2+Math.random()*5;
-                        particles.push({ x, y, vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd, life: 60+Math.random()*30, r: 2+Math.random()*2, c: colors[Math.floor(Math.random()*colors.length)] });
-                    }
+                let ambientAlpha = 0.6;
+                const blobs = [];
+                const palette = ['#ffadbc','#ffd1dc','#fff0f5','#ff7aa2','#b03060'];
+                for(let i=0;i<26;i++){
+                    const r = 18 + Math.random()*36;
+                    const x = Math.random()*w;
+                    const y = Math.random()*h;
+                    const ang = Math.random()*Math.PI*2;
+                    const spd = 0.2 + Math.random()*0.6;
+                    const col = palette[Math.floor(Math.random()*palette.length)];
+                    blobs.push({x,y,r,ang,spd,col,tw: Math.random()*Math.PI*2});
                 }
-                burst(w*0.4,h*0.45); burst(w*0.6,h*0.45); burst(w*0.5,h*0.35);
-                function step(){
-                    if(!running) return;
+                function draw(){
                     ctx.clearRect(0,0,w,h);
-                    for(let i=particles.length-1;i>=0;i--){
-                        const p = particles[i];
-                        p.life -= 1;
-                        if(p.life<=0){ particles.splice(i,1); continue; }
-                        p.vy += 0.04;
-                        p.x += p.vx;
-                        p.y += p.vy;
-                        ctx.globalAlpha = Math.max(0, p.life/90);
-                        ctx.fillStyle = p.c;
+                    const grd = ctx.createRadialGradient(w*0.5,h*0.3,10,w*0.5,h*0.5, Math.max(w,h)*0.7);
+                    grd.addColorStop(0,'rgba(255,235,243,0.6)');
+                    grd.addColorStop(0.5,'rgba(255,245,250,0.4)');
+                    grd.addColorStop(1,'rgba(255,255,255,0.2)');
+                    ctx.fillStyle = grd;
+                    ctx.fillRect(0,0,w,h);
+                    for(const b of blobs){
+                        b.tw += 0.01;
+                        b.ang += (Math.sin(b.tw)*0.008);
+                        b.x += Math.cos(b.ang)*b.spd;
+                        b.y += Math.sin(b.ang)*b.spd;
+                        if(b.x < -100) b.x = w+100;
+                        if(b.x > w+100) b.x = -100;
+                        if(b.y < -100) b.y = h+100;
+                        if(b.y > h+100) b.y = -100;
+                        ctx.globalAlpha = ambientAlpha;
+                        const rg = ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
+                        rg.addColorStop(0, b.col);
+                        rg.addColorStop(1, 'transparent');
+                        ctx.fillStyle = rg;
                         ctx.beginPath();
-                        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+                        ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
                         ctx.fill();
                     }
-                    requestAnimationFrame(step);
+                    requestAnimationFrame(draw);
                 }
                 window.addEventListener('resize', ()=>{ w = c.width = window.innerWidth; h = c.height = window.innerHeight; });
-                step();
-                c.addEventListener('click', e=>{ burst(e.clientX, e.clientY); });
-                window.stopFireworks = function(){ running = false; ctx.clearRect(0,0,w,h); };
+                window.setIntroAmbientAlpha = function(a){ ambientAlpha = a; };
+                draw();
             }
         }
         if(adminToggle && adminPanel){
