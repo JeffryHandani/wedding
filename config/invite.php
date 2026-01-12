@@ -16,7 +16,7 @@ return [
     ],
     'families' => [
         'groom_parents' => ['Mr. Eddy Jericho', 'Mrs. Ana Muliawan'],
-        'bride_parents' => ['Mr. Ridwan', 'Mrs. Corry Hanjaya'],
+        'bride_parents' => ['Mr. Soedirman', 'Mrs. Yanti'],
     ],
     'scripture' => "And now these three remain: faith, hope, and love. But the greatest of these is love.",
     'events' => [
@@ -52,9 +52,7 @@ return [
         'map_embed_url' => 'https://www.google.com/maps?q=Grand+Ballroom+Jakarta&output=embed',
         'gallery' => [
             ['url' => 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop', 'alt' => 'Engagement'],
-            ['url' => 'https://images.unsplash.com/photo-1518600506278-4e8ef466b010?q=80&w=1200&auto=format&fit=crop', 'alt' => 'Bride & Groom'],
             ['url' => 'https://images.unsplash.com/photo-1495567720989-cebdbdd97913?q=80&w=1200&auto=format&fit=crop', 'alt' => 'Ceremony'],
-            ['url' => 'https://images.unsplash.com/photo-1519225421980-715cb0216a56?q=80&w=1200&auto=format&fit=crop', 'alt' => 'Reception'],
             ['url' => 'https://placehold.co/1200x800?text=Engagement', 'alt' => 'Engagement'],
             ['url' => 'https://placehold.co/1200x800?text=Bride+%26+Groom', 'alt' => 'Bride & Groom'],
             ['url' => 'https://placehold.co/1200x800?text=Ceremony', 'alt' => 'Ceremony'],
@@ -98,5 +96,6 @@ return [
         'icon_matrimony' => '/images/icon_rings.svg',
         'icon_reception' => '/images/icon_glasses.svg',
         'gift_illustration' => '/images/gift_sketch.svg',
+        'scripture_bg' => '/images/scripture_bg.svg',
     ],
 ];

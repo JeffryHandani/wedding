@@ -16,7 +16,11 @@
         .names { font-family: Great Vibes, Playfair Display, serif; font-size: clamp(3.4rem, 13vw, 7rem); line-height:1; color:var(--primary); margin-top:12px; }
         .date { margin-top:16px; letter-spacing:8px; font-weight:700; font-size:1.2rem; text-transform:uppercase; }
         .section { margin:0; padding:8vh 8vw; border-top:1px solid var(--border); background:#fff; width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); min-height:70vh; display:flex; flex-direction:column; justify-content:center; }
-        .bg-scripture { background: var(--bg2); }
+        .bg-scripture { 
+            background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('{{ $invite['assets']['scripture_bg'] ?? '/images/scripture_bg.svg' }}') center/cover no-repeat; 
+            min-height: 32vh; 
+            padding: 5vh 8vw; 
+        }
         .bg-couple { background: var(--bg3); }
         .bg-events { background: #9fa1a4; color:#ffffff; }
         .bg-protocol { background: var(--bg5); }
@@ -24,6 +28,14 @@
         .bg-gifts { background: var(--teal); color:#fff; min-height:56vh; }
         .bg-gifts h2, .bg-gifts div { color:#fff; }
         .bg-wishes { background: var(--bg3); }
+        .bg-gallery { background: var(--bg3); padding: 2vh 0; min-height: 100vh; }
+        .gallery { display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; }
+        .gallery.full { grid-template-columns: repeat(3, 1fr); gap:0; }
+        @media (max-width: 860px) { .gallery, .gallery.full { grid-template-columns: repeat(2, 1fr); } }
+        .gallery img { width:100%; height:200px; object-fit:cover; border-radius:12px; border:1px solid var(--border); cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,0.04); }
+        .gallery.full img { height: 48vh; border-radius:0; border:none; box-shadow:none; }
+        .lightbox { position:fixed; inset:0; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; z-index:1000; }
+        .lightbox img { max-width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 30px 60px rgba(0,0,0,0.5); }
         .gift-magic { position:relative; width:clamp(140px, 18vw, 220px); margin:12px auto 8px; }
         .gift-magic img { position:relative; display:block; z-index:2; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3)); }
         .gift-magic .glow { position:absolute; left:50%; top:50%; width:260px; height:260px; transform:translate(-50%,-50%); border-radius:50%; background: radial-gradient(circle at 50% 50%, rgba(255,220,230,0.8), rgba(255,240,248,0.6)); filter:blur(42px); z-index:1; animation: pulse 4s ease-in-out infinite; }
@@ -71,7 +83,8 @@
         @media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
         .card { padding:32px; border:1px solid var(--border); border-radius:16px; }
         .card h3 { margin:0 0 6px; font-family:Cinzel, Playfair Display, serif; letter-spacing:4px; font-size:1.1rem; text-align:center; text-transform:uppercase; }
-        .scripture { text-align:center; font-family: Playfair Display, serif; font-size:1.3rem; color:#4b3c42; line-height:1.8; }
+        .scripture-card { max-width: 760px; margin: 0 auto; padding: 16px 20px; background: rgba(255,255,255,0.85); border:1px solid var(--border); border-radius:14px; box-shadow:0 8px 18px rgba(0,0,0,0.06); }
+        .scripture { text-align:center; font-family: Playfair Display, serif; font-size:1rem; color:#4b3c42; line-height:1.6; }
         .person { text-align:center; }
         .role { font-family:Cinzel, Playfair Display, serif; letter-spacing:4px; font-size:1.1rem; text-transform:uppercase; }
         .person-name { font-family: Great Vibes, Playfair Display, serif; font-size:2.6rem; color:var(--primary); line-height:1; }
@@ -96,11 +109,45 @@
         .wish { border-bottom:1px solid var(--border); padding:12px 0; font-size:1rem; }
         .form input, .form select, .form textarea { width:100%; padding:14px 16px; margin:8px 0 14px; border:1px solid var(--border); border-radius:12px; font-size:1rem; }
         .form textarea { min-height:120px; }
+        #introCanvas { position:fixed; inset:0; z-index:100; pointer-events:none; }
+        #bookIntro { position:fixed; inset:0; z-index:110; display:none; align-items:center; justify-content:center; background: radial-gradient(1200px 800px at 50% 0%, rgba(255,235,243,0.95) 0%, rgba(255,247,250,0.9) 50%, rgba(255,255,255,0.7) 100%); backdrop-filter:saturate(140%) blur(6px); }
+        .book { position:relative; width:clamp(320px, 80vw, 980px); height:clamp(220px, 60vh, 560px); perspective:1200px; display:flex; align-items:center; justify-content:center; }
+        .page { position:relative; width:50%; height:70%; background:#fff; border:1px solid #e7d7de; box-shadow:0 20px 40px rgba(0,0,0,0.18); transform-style:preserve-3d; }
+        .page.left { transform-origin: left center; transform: rotateY(90deg); border-right:none; border-top-left-radius:18px; border-bottom-left-radius:18px; }
+        .page.right { transform-origin: right center; transform: rotateY(-90deg); border-left:none; border-top-right-radius:18px; border-bottom-right-radius:18px; }
+        .page .inner { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:24px; }
+        .page.left .inner img { width:100%; height:100%; object-fit:cover; border-top-left-radius:18px; border-bottom-left-radius:18px; }
+        .page.right .names { font-family: Great Vibes, Playfair Display, serif; font-size: clamp(2.2rem, 7vw, 5rem); color:#b03060; line-height:1; text-align:center; }
+        .page.right .sub { margin-top:8px; font-family:Poppins; color:#6b4c55; letter-spacing:4px; font-weight:700; text-align:center; }
+        .book.open .page.left { animation: openLeft 1.2s cubic-bezier(.2,.8,.2,1) forwards; }
+        .book.open .page.right { animation: openRight 1.2s cubic-bezier(.2,.8,.2,1) .05s forwards; }
+        .book-enter { margin-top:18px; padding:12px 18px; border-radius:999px; background:#b03060; color:#fff; border:none; font-weight:700; box-shadow:0 14px 30px rgba(176,48,96,0.3); letter-spacing:2px; }
+        @keyframes openLeft { 0% { transform: rotateY(90deg);} 100% { transform: rotateY(0);} }
+        @keyframes openRight { 0% { transform: rotateY(-90deg);} 100% { transform: rotateY(0);} }
         .lang { text-align:center; margin-top:8px; }
         .lang a { margin:0 6px; }
     </style>
 </head>
 <body>
+    <canvas id="introCanvas"></canvas>
+    <div id="bookIntro">
+        <div>
+            <div class="book">
+                <div class="page left">
+                    <div class="inner">
+                        <img src="{{ $invite['media']['hero_image_url'] ?? '/images/hero_bg.svg' }}" alt="Photo">
+                    </div>
+                </div>
+                <div class="page right">
+                    <div class="inner" style="flex-direction:column;">
+                        <div class="names">{{ $invite['couple']['groom'] }} <span class="intro-amp">&</span> {{ $invite['couple']['bride'] }}</div>
+                        <div class="sub">CELEBRATING LOVE</div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center;"><button id="bookEnter" class="book-enter">Enter</button></div>
+        </div>
+    </div>
     <div class="wrap">
         <div class="lang">
             @foreach($languages as $lang)
@@ -114,7 +161,9 @@
         </div>
 
         <div class="section bg-scripture">
-            <div class="scripture">{{ $invite['scripture'] ?? '' }}</div>
+            <div class="scripture-card">
+                <div class="scripture">{{ $invite['scripture'] ?? '' }}</div>
+            </div>
         </div>
 
         <div class="section bg-couple two">
@@ -129,6 +178,16 @@
                 <div class="parents">First Daughter of<br>{{ $invite['families']['bride_parents'][0] ?? '' }}<br>&<br>{{ $invite['families']['bride_parents'][1] ?? '' }}</div>
             </div>
         </div>
+
+        <div class="section bg-gallery">
+            <h2>Photo Gallery</h2>
+            <div class="gallery full" id="gallery">
+                @foreach(($invite['media']['gallery'] ?? []) as $img)
+                    <img src="{{ $img['url'] }}" alt="{{ $img['alt'] ?? 'Photo' }}" data-full="{{ $img['url'] }}">
+                @endforeach
+            </div>
+            </div>
+        <div class="lightbox" id="galleryLightbox"><img id="galleryLightboxImg" alt=""></div>
 
         <div class="section bg-events">
             <div class="events-title">The Wedding</div>
@@ -167,33 +226,18 @@
             </div>
         </div>
 
-        <div class="section bg-protocol">
-            <h2>Say You’ll Be There</h2>
-            <div style="text-align:center; color:var(--muted); margin-top:6px;">Health Protocol</div>
-            <div class="proto">
-                <div class="p"><div class="emoji">↔️</div><div>Keep distance physically</div></div>
-                <div class="p"><div class="emoji">🧼</div><div>Wash and disinfect hands regularly</div></div>
-                <div class="p"><div class="emoji">😷</div><div>Always use face mask</div></div>
-                <div class="p"><div class="emoji">❤️</div><div>Please kindly RSVP your attendance</div></div>
-            </div>
-        </div>
-
         <div class="section bg-rsvp">
             <div class="rsvp-wrap">
-                <div class="rsvp-kicker">PLEASE KINDLY RSVP YOUR ATTENDANCE</div>
                 <div class="rsvp-title" style="display:none;">RSVP</div>
                 <div class="rsvp-desc"></div>
                 <div class="rsvp-script">We would be honored by your presence</div>
                 <form id="rsvpForm" class="form rsvp-form">
                     <label>FULL NAME</label>
                     <input type="text" name="name" placeholder="TYPE FULL NAME" required>
-                    <label>PHONE</label>
-                    <input type="text" name="phone" placeholder="TYPE PHONE">
-                    <label>CONFIRMATION OF ATTENDANCE</label>
                     <label>ATTENDING</label>
                     <div class="attend-toggle">
-                        <button type="button" class="toggle active" data-attend="1">YES</button>
-                        <button type="button" class="toggle" data-attend="0">NO</button>
+                        <button type="button" class="toggle active" data-attend="1">Yes</button>
+                        <button type="button" class="toggle" data-attend="0">No</button>
                     </div>
                     <select name="attending" style="display:none;">
                         <option value="1" selected>YES</option>
@@ -210,6 +254,8 @@
                 </form>
             </div>
         </div>
+
+     
 
         <div class="section bg-gifts">
             <h2>Send Us Some Love</h2>
@@ -300,6 +346,88 @@
                 });
             });
             update(select.value || '1');
+        })();
+        (function(){
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if(prefersReduced) return;
+            const c = document.getElementById('introCanvas');
+            if(!c) return;
+            const ctx = c.getContext('2d');
+            let w = c.width = window.innerWidth, h = c.height = window.innerHeight;
+            let ambientAlpha = 0.35;
+            let running = true;
+            const blobs = [];
+            const palette = ['#ffadbc','#ffd1dc','#fff0f5','#ff7aa2','#b03060'];
+            for(let i=0;i<22;i++){
+                const r = 18 + Math.random()*36;
+                const x = Math.random()*w;
+                const y = Math.random()*h;
+                const ang = Math.random()*Math.PI*2;
+                const spd = 0.2 + Math.random()*0.6;
+                const col = palette[Math.floor(Math.random()*palette.length)];
+                blobs.push({x,y,r,ang,spd,col,tw: Math.random()*Math.PI*2});
+            }
+            function draw(){
+                if(!running) return;
+                ctx.clearRect(0,0,w,h);
+                const grd = ctx.createRadialGradient(w*0.5,h*0.3,10,w*0.5,h*0.5, Math.max(w,h)*0.7);
+                grd.addColorStop(0,'rgba(255,235,243,0.6)');
+                grd.addColorStop(0.5,'rgba(255,245,250,0.4)');
+                grd.addColorStop(1,'rgba(255,255,255,0.2)');
+                ctx.fillStyle = grd;
+                ctx.fillRect(0,0,w,h);
+                for(const b of blobs){
+                    b.tw += 0.01;
+                    b.ang += (Math.sin(b.tw)*0.008);
+                    b.x += Math.cos(b.ang)*b.spd;
+                    b.y += Math.sin(b.ang)*b.spd;
+                    if(b.x < -120) b.x = w+120;
+                    if(b.x > w+120) b.x = -120;
+                    if(b.y < -120) b.y = h+120;
+                    if(b.y > h+120) b.y = -120;
+                    ctx.globalAlpha = ambientAlpha;
+                    const rg = ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
+                    rg.addColorStop(0, b.col);
+                    rg.addColorStop(1, 'transparent');
+                    ctx.fillStyle = rg;
+                    ctx.beginPath();
+                    ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+                    ctx.fill();
+                }
+                requestAnimationFrame(draw);
+            }
+            window.addEventListener('resize', ()=>{ w = c.width = window.innerWidth; h = c.height = window.innerHeight; });
+            window.setIntroAmbientAlpha = function(a){ ambientAlpha = a; };
+            window.stopIntroAmbient = function(){ running = false; try { ctx.clearRect(0,0,w,h); } catch{} c.style.display = 'none'; };
+            // draw();
+        })();
+        (function(){
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if(prefersReduced) return;
+            const bookIntro = document.getElementById('bookIntro');
+            const book = bookIntro ? bookIntro.querySelector('.book') : null;
+            const bookEnter = document.getElementById('bookEnter');
+            function showBook(){
+                if(!bookIntro || !book) return;
+                bookIntro.style.display = 'flex';
+                const setAlpha = window.setIntroAmbientAlpha || null;
+                if(setAlpha) setAlpha(0.6);
+                requestAnimationFrame(()=>{ book.classList.add('open'); });
+                setTimeout(closeBook, 5200);
+            }
+            function closeBook(){
+                bookIntro.style.opacity = '1';
+                bookIntro.style.transition = 'opacity .6s ease';
+                bookIntro.style.opacity = '0';
+                const setAlpha = window.setIntroAmbientAlpha || null;
+                setTimeout(()=>{ 
+                    bookIntro.style.display = 'none'; 
+                    if(setAlpha) setAlpha(0.0); 
+                    if(window.stopIntroAmbient) window.stopIntroAmbient(); 
+                }, 600);
+            }
+            setTimeout(showBook, 300);
+            if(bookEnter){ bookEnter.addEventListener('click', closeBook); }
         })();
         document.getElementById('wishForm').addEventListener('submit', function(e){
             e.preventDefault();
@@ -393,6 +521,21 @@
                 const tab = e.target.closest('.gift-tab');
                 if(tab){ setActive(parseInt(tab.dataset.index)); }
             });
+        })();
+        (function(){
+            const g = document.getElementById('gallery');
+            const lb = document.getElementById('galleryLightbox');
+            const lbi = document.getElementById('galleryLightboxImg');
+            if(g && lb && lbi){
+                g.addEventListener('click', (e)=>{
+                    const t = e.target;
+                    if(t && t.tagName === 'IMG'){
+                        lbi.src = t.dataset.full;
+                        lb.style.display = 'flex';
+                    }
+                });
+                lb.addEventListener('click', ()=>{ lb.style.display = 'none'; });
+            }
         })();
         (function(){
             const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

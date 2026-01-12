@@ -202,27 +202,6 @@
             </div>
         </div>
 
-        {{-- <div class="grid" style="margin-top:16px;">
-            <div class="section">
-                <h2>{{ __('invite.map') }}</h2>
-                <iframe src="{{ $invite['media']['map_embed_url'] }}"></iframe>
-            </div>
-            <div class="section">
-                <h2>{{ __('invite.gifts') }}</h2>
-                <div class="actions">
-                    @foreach($invite['gifts'] as $g)
-                        <a href="{{ $g['url'] }}" target="_blank">{{ $g['label'] }}</a>
-                    @endforeach
-                </div>
-                <h2 style="margin-top:16px;">{{ __('invite.actions') }}</h2>
-                <div class="actions">
-                    @foreach($invite['custom_actions'] as $a)
-                        <a href="{{ $a['url'] }}" target="_blank">{{ $a['label'] }}</a>
-                    @endforeach
-                </div>
-            </div>
-        </div> --}}
-
     </main>
 
     <script>
