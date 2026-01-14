@@ -23,7 +23,7 @@ return [
         [
             'title' => 'Holy Matrimony',
             'venue_name' => 'Whistler Garden',
-            'venue_room' => 'Function Room Scenery',
+            'venue_room' => 'Sky Glass House',
             'address_line1' => 'Jl HR Jl. Rasuna Said, Salembaran, Kosambi',
             'address_line2' => 'Tangerang Regency, Banten 15214, Indonesia',
             'date' => '2026-07-18',

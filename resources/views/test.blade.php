@@ -109,6 +109,12 @@
         .wish { border-bottom:1px solid var(--border); padding:12px 0; font-size:1rem; }
         .form input, .form select, .form textarea { width:100%; padding:14px 16px; margin:8px 0 14px; border:1px solid var(--border); border-radius:12px; font-size:1rem; }
         .form textarea { min-height:120px; }
+        .reveal { opacity:0; transform:translateY(24px) scale(0.98); transition:opacity .6s ease, transform .6s ease; will-change:opacity, transform; }
+        .reveal.in { opacity:1; transform:none; }
+        .fade-up { transform:translateY(28px); }
+        .slide-left { transform:translateX(-28px); }
+        .slide-right { transform:translateX(28px); }
+        .zoom-in { transform:scale(0.92); }
         #introCanvas { position:fixed; inset:0; z-index:100; pointer-events:none; }
         #bookIntro { position:fixed; inset:0; z-index:110; display:none; align-items:center; justify-content:center; background: radial-gradient(1200px 800px at 50% 0%, rgba(255,235,243,0.95) 0%, rgba(255,247,250,0.9) 50%, rgba(255,255,255,0.7) 100%); backdrop-filter:saturate(140%) blur(6px); }
         .book { position:relative; width:clamp(320px, 80vw, 980px); height:clamp(220px, 60vh, 560px); perspective:1200px; display:flex; align-items:center; justify-content:center; }
@@ -204,9 +210,6 @@
                 @if(!empty($ev0['maps_url']))
                 <div style="margin-top:16px;">
                     <a class="btn" target="_blank" href="{{ $ev0['maps_url'] }}">Open Maps</a>
-                    @if(!empty($ev0['watch_url']))
-                    <a class="btn" target="_blank" href="{{ $ev0['watch_url'] }}" style="margin-left:18px;">Watch Live</a>
-                    @endif
                 </div>
                 @endif
             </div>
@@ -548,6 +551,25 @@
                 });
             }, { threshold: 0.45 });
             io.observe(gm);
+        })();
+        (function(){
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if(prefersReduced) return;
+            const io = new IntersectionObserver((entries)=>{
+                entries.forEach(en=>{
+                    const el = en.target;
+                    if(en.isIntersecting){
+                        el.classList.add('in');
+                        if(el.id === 'gallery'){
+                            const imgs = Array.from(el.querySelectorAll('img'));
+                            imgs.forEach((im, i)=>{ im.classList.add('reveal'); im.style.transitionDelay = `${i*60}ms`; im.classList.add('in'); });
+                        }
+                        io.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.15 });
+            const targets = Array.from(document.querySelectorAll('.hero, .section, .event-card, .person, .wishes-wrap, .rsvp-wrap, .gift-magic, #gallery'));
+            targets.forEach((el,i)=>{ el.classList.add('reveal'); el.style.transitionDelay = `${Math.min(i*40,400)}ms`; io.observe(el); });
         })();
     </script>
 </body>
