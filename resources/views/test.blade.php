@@ -17,7 +17,7 @@
         .names { font-family: Great Vibes, Playfair Display, serif; font-size: clamp(3.4rem, 13vw, 7rem); line-height:1; color:var(--primary); margin-top:12px; }
         .date { margin-top:16px; letter-spacing:8px; font-weight:700; font-size:1.2rem; text-transform:uppercase; }
         .hero-copy { position:absolute; left:50%; top:12%; transform:translate(-50%,-50%); width:min(94vw, 1200px); text-align:center; line-height:normal; }
-        @media (max-width: 860px) { .hero-copy { top:54%; width:94vw; } }
+        @media (max-width: 860px) { .hero-copy { width:94vw; } }
         .hero .title, .hero .names, .hero .date { opacity:0; transform:translateY(14px); }
         .hero.hero-seq .title, .hero.hero-seq .names, .hero.hero-seq .date { animation: heroTextIn .8s ease forwards; }
         .hero.hero-seq .title { animation-delay:.2s; }
