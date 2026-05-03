@@ -116,14 +116,15 @@
         .couple-title { font-family:Cinzel, Playfair Display, serif; letter-spacing:4px; font-size:clamp(1.2rem, 2vw, 1.7rem); color:#9ba1a7; text-transform:uppercase; }
         .couple-grid { display:grid; grid-template-columns:repeat(2, minmax(240px, 360px)); gap:52px; justify-content:center; align-items:start; }
         .couple-item { text-align:center; }
-        .person-photo { width:200px; height:200px; margin:0 auto 16px; border-radius:999px; overflow:hidden; border:1px solid #d9dde2; box-shadow:0 10px 24px rgba(0,0,0,0.08); background:#f2f2f2; }
-        .person-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+        .person-photo { position:relative; width:200px; height:200px; margin:0 auto 66px; border-radius:999px; overflow:visible; border:1px solid #d9dde2; box-shadow:0 10px 24px rgba(0,0,0,0.08); background:#f2f2f2; }
+        .person-photo img { position:relative; z-index:1; width:100%; height:100%; object-fit:cover; display:block; border-radius:999px; }
+        .person-photo::after { content:""; position:absolute; left:50%; bottom:-58px; transform:translateX(-50%); width:220px; height:120px; background:url('/images/flower-profile.webp') center/contain no-repeat; pointer-events:none; z-index:2; }
         .person-name { font-family: Playfair Display, serif; font-size:2rem; color:#6f7174; line-height:1.1; margin-bottom:6px; }
         .role { font-family:Poppins, sans-serif; text-transform:uppercase; font-size:.78rem; font-weight:700; letter-spacing:1.4px; color:#8a8f96; }
         .parents { color:#666d75; margin-top:4px; font-size:.86rem; line-height:1.45; }
         .person-social { margin-top:10px; color:#7a7f86; line-height:1; }
         .person-social svg { width:14px; height:14px; fill:currentColor; vertical-align:middle; }
-        @media (max-width: 860px) { .couple-grid { grid-template-columns:1fr; gap:28px; } .person-photo { width:118px; height:118px; } }
+        @media (max-width: 860px) { .couple-grid { grid-template-columns:1fr; gap:28px; } .person-photo { width:140px; height:140px; margin-bottom:50px; } .person-photo::after { width:160px; height:90px; bottom:-42px; } }
         .event { text-align:center; }
         .venue { font-family: Playfair Display, serif; font-size:1.2rem; }
         .addr { color:var(--muted); margin-top:10px; font-size:1rem; line-height:1.7; }
@@ -151,7 +152,13 @@
         .slide-right { transform:translateX(28px); }
         .zoom-in { transform:scale(0.92); }
         #introCanvas { position:fixed; inset:0; z-index:100; pointer-events:none; }
-        #bookIntro { position:fixed; inset:0; z-index:110; display:none; align-items:center; justify-content:center; background: radial-gradient(1200px 800px at 50% 0%, rgba(255,235,243,0.95) 0%, rgba(255,247,250,0.9) 50%, rgba(255,255,255,0.7) 100%); backdrop-filter:saturate(140%) blur(6px); }
+        #bookIntro { position:fixed; inset:0; z-index:110; display:none; align-items:center; justify-content:center; background:#000; overflow:hidden; }
+        .opening-video { width:100vw; height:100vh; object-fit:cover; display:block; }
+        .opening-overlay { position:absolute; left:50%; bottom:10vh; transform:translateX(-50%) translateY(10px); width:min(92vw, 980px); text-align:center; color:#fff; opacity:0; transition:opacity .6s ease, transform .6s ease; text-shadow:0 2px 12px rgba(0,0,0,.35); }
+        #bookIntro.show-names .opening-overlay { opacity:1; transform:translateX(-50%) translateY(0); }
+        .opening-kicker { font-family:Cinzel, Playfair Display, serif; font-size:clamp(1rem, 2.2vw, 1.5rem); letter-spacing:4px; text-transform:uppercase; }
+        .opening-names { margin-top:8px; font-family:Great Vibes, Playfair Display, serif; font-size:clamp(2.6rem, 8vw, 5.2rem); line-height:1; }
+        .opening-date { margin-top:8px; letter-spacing:6px; font-weight:700; font-size:clamp(.9rem, 2vw, 1.2rem); text-transform:uppercase; }
         .book { position:relative; width:clamp(320px, 80vw, 980px); height:clamp(220px, 60vh, 560px); perspective:1200px; display:flex; align-items:center; justify-content:center; }
         .page { position:relative; width:50%; height:70%; background:#fff; border:1px solid #e7d7de; box-shadow:0 20px 40px rgba(0,0,0,0.18); transform-style:preserve-3d; }
         .page.left { transform-origin: left center; transform: rotateY(90deg); border-right:none; border-top-left-radius:18px; border-bottom-left-radius:18px; }
@@ -174,23 +181,14 @@
 <body>
     <canvas id="introCanvas"></canvas>
     <div id="bookIntro">
-        <div>
-            <div class="book">
-                <div class="page left">
-                    <div class="inner">
-                        <div class="intro-duo">
-                            <img src="{{ $invite['media']['book_cover']  }}" alt="Book cover">
-                        </div>
-                    </div>
-                </div>
-                <div class="page right">
-                    <div class="inner" style="flex-direction:column;">
-                        <div class="names">{{ $invite['couple']['groom'] }} <span class="intro-amp">&</span> {{ $invite['couple']['bride'] }}</div>
-                        <div class="sub">CELEBRATING LOVE</div>
-                    </div>
-                </div>
-            </div>
-            <div style="text-align:center;"><button id="bookEnter" class="book-enter">Enter</button></div>
+        <video id="openingVideo" class="opening-video" autoplay muted playsinline preload="auto">
+            <source src="/images/Tema-Blossom.mp4" type="video/mp4">
+        </video>
+        <div class="opening-overlay">
+            <div class="opening-kicker">The Wedding Of</div>
+            <div class="opening-names">{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</div>
+            <div class="opening-date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
+            <div style="margin-top:14px;"><button id="bookEnter" class="book-enter">Enter</button></div>
         </div>
     </div>
     <div class="wrap">
@@ -476,19 +474,33 @@
         })();
         (function(){
             const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if(prefersReduced) return;
-            const bookIntro = document.getElementById('bookIntro');
-            const book = bookIntro ? bookIntro.querySelector('.book') : null;
-            const bookEnter = document.getElementById('bookEnter');
             const hero = document.querySelector('.hero');
+            const mobileOnly = window.matchMedia('(max-width: 860px)').matches;
+            if(prefersReduced){
+                if(hero){ hero.classList.add('hero-seq'); }
+                return;
+            }
+            if(!mobileOnly){
+                if(hero){ hero.classList.add('hero-seq'); }
+                return;
+            }
+            const bookIntro = document.getElementById('bookIntro');
+            const openingVideo = document.getElementById('openingVideo');
+            const bookEnter = document.getElementById('bookEnter');
             let closed = false;
             function showBook(){
-                if(!bookIntro || !book) return;
+                if(!bookIntro) return;
                 bookIntro.style.display = 'flex';
                 const setAlpha = window.setIntroAmbientAlpha || null;
                 if(setAlpha) setAlpha(0.6);
-                requestAnimationFrame(()=>{ book.classList.add('open'); });
-                setTimeout(closeBook, 5200);
+                if(openingVideo){
+                    bookIntro.classList.remove('show-names');
+                    openingVideo.currentTime = 0;
+                    openingVideo.play().catch(()=>{ setTimeout(closeBook, 4500); });
+                } else {
+                    setTimeout(()=>{ bookIntro.classList.add('show-names'); }, 18000);
+                    setTimeout(closeBook, 4500);
+                }
             }
             function closeBook(){
                 if(closed) return;
@@ -503,6 +515,14 @@
                     if(setAlpha) setAlpha(0.0); 
                     if(window.stopIntroAmbient) window.stopIntroAmbient(); 
                 }, 600);
+            }
+            if(openingVideo){
+                openingVideo.addEventListener('timeupdate', ()=>{
+                    if(openingVideo.currentTime >= 18){
+                        bookIntro.classList.add('show-names');
+                    }
+                });
+                openingVideo.addEventListener('ended', closeBook);
             }
             setTimeout(showBook, 300);
             if(bookEnter){ bookEnter.addEventListener('click', closeBook); }
