@@ -40,12 +40,10 @@ class InvitationController extends Controller
             'wishes' => $wishes,
         ]);
     }
-    public function test(Request $request, $locale)
+    public function test(Request $request)
     {
        $invite = Config::get('invite');
 
-        $locale = session('locale', config('app.locale'));
-        App::setLocale($locale);
 
         $guestName = $request->query('to');
         $date = Carbon::createFromFormat('Y-m-d H:i',
@@ -64,7 +62,6 @@ class InvitationController extends Controller
             'invite' => $invite,
             'guestName' => $guestName,
             'eventTimestamp' => $eventTimestamp,
-            'locale' => $locale,
             'languages' => $invite['languages'],
             'wishes' => $wishes,
         ]);
