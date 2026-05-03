@@ -7,17 +7,50 @@
     <title>{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        :root { --text:#2c1b1f; --muted:#6b4c55; --border:#e7d7de; --primary:#b03060; --bg1:#fff0f5; --bg2:#f9f1f7; --bg3:#ffffff; --bg4:#f5f7ff; --bg5:#f1fbf7; --bg6:#fffdf2; --bg7:#f8f0ff; --teal:#55949a; }
+        :root { --text:#2c1b1f; --muted:#6b4c55; --border:#e7d7de; --primary:#b03060; --bg1:#fff0f5; --bg2:#f9f1f7; --bg3:#ffffff; --bg4:#f5f7ff; --bg5:#f1fbf7; --bg6:#fffdf2; --bg7:#f8f0ff; --teal:#55949a; --mobile-wrap:390px; }
         * { box-sizing:border-box; }
         body { margin:0; color:var(--text); background:#fff; font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
         .wrap { width:100%; max-width:none; margin:0; padding:0; }
+        .desktop-left { display:none; }
         .hero { position:relative; text-align:center; width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); line-height:0; overflow:hidden; background:var(--bg1); }
+        .hero-mobile { position:relative; display:block; }
         .hero-bg { width:100%; height:auto; display:block; }
+        .hero-desktop { display:none; }
+        .hero-left img, .hero-right-bg { width:100%; height:100%; object-fit:cover; display:block; }
+        .hero-right { position:relative; overflow:hidden; }
         .title { font-family: Cinzel, Playfair Display, serif; font-size: 20px; letter-spacing:6px; text-transform:uppercase; }
         .names { font-family: Great Vibes, Playfair Display, serif; font-size: clamp(3.4rem, 13vw, 7rem); line-height:1; color:var(--primary); margin-top:12px; }
         .date { margin-top:16px; letter-spacing:8px; font-weight:700; font-size:1.2rem; text-transform:uppercase; }
-        .hero-copy { position:absolute; left:50%; top:12%; transform:translate(-50%,-50%); width:min(94vw, 1200px); text-align:center; line-height:normal; }
-        @media (max-width: 860px) { .hero-copy { width:94vw; } }
+        .hero-copy { position:absolute; text-align:center; line-height:normal; z-index:2; }
+        .hero-copy-mobile { left:50%; top:12%; transform:translate(-50%,-50%); width:94vw; }
+        .hero-copy-desktop { left:50%; top:52%; transform:translate(-50%,-50%); width:88%; }
+        .hero-copy-desktop .title { font-size:clamp(1rem, 1.3vw, 1.25rem); letter-spacing:3px; color:#8b646a; }
+        .hero-copy-desktop .names { font-size:clamp(2.4rem, 4vw, 3.8rem); margin-top:8px; }
+        .hero-copy-desktop .date { font-size:clamp(.82rem, .95vw, 1rem); letter-spacing:4px; margin-top:10px; color:#6b4c55; }
+        @media (min-width: 861px) {
+            body { overflow:hidden; background:#101317; }
+            .desktop-left { display:block; position:fixed; inset:0 var(--mobile-wrap) 0 0; background:url('{{ $invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg' }}') center/cover no-repeat; }
+            .wrap { position:fixed; top:0; right:0; width:var(--mobile-wrap); max-width:var(--mobile-wrap); height:100vh; overflow-y:auto; overflow-x:hidden; background:#fff; z-index:2; box-shadow:-14px 0 34px rgba(0,0,0,0.25); }
+            .hero, .section { width:100%; margin-left:0; margin-right:0; }
+            .section { min-height:auto; padding:44px 18px; }
+            .hero-desktop { display:none; }
+            .hero-mobile { display:block; }
+            .hero-mobile picture { display:none; }
+            .hero-mobile { height:100vh; min-height:100vh; background:url('{{ $invite['assets']['hero_mobile'] ?? ($invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg') }}') center/cover no-repeat; }
+            .hero-copy-mobile { width:90%; top:14%; }
+            .hero-copy-mobile .title { font-size:1.05rem; letter-spacing:3px; }
+            .hero-copy-mobile .names { font-size:clamp(2.5rem, 9vw, 3.6rem); margin-top:8px; }
+            .hero-copy-mobile .date { font-size:.92rem; letter-spacing:4px; margin-top:10px; }
+            .two { grid-template-columns:1fr; }
+            .proto { grid-template-columns:repeat(2, 1fr); }
+            .couple-grid { grid-template-columns:1fr; gap:28px; }
+            .person-photo { width:140px; height:140px; margin-bottom:50px; }
+            .person-photo::after { width:160px; height:90px; bottom:-42px; }
+            .bg-gallery { padding:14px 0; min-height:auto; }
+            .gallery, .gallery.full { grid-template-columns:repeat(2, 1fr); }
+            .gallery.full { gap:8px; padding:8px; }
+            .gallery.full img { grid-column:span 1 !important; aspect-ratio:3 / 4; min-height:180px; border-radius:10px; }
+        }
         .hero .title, .hero .names, .hero .date { opacity:0; transform:translateY(14px); }
         .hero.hero-seq .title, .hero.hero-seq .names, .hero.hero-seq .date { animation: heroTextIn .8s ease forwards; }
         .hero.hero-seq .title { animation-delay:.2s; }
@@ -176,10 +209,34 @@
         @keyframes openRight { 0% { transform: rotateY(-90deg);} 100% { transform: rotateY(0);} }
         .lang { text-align:center; margin-top:8px; }
         .lang a { margin:0 6px; }
+        @media (min-width: 861px) {
+            .wrap .hero-desktop { display:none !important; }
+            .wrap .hero-mobile { display:block !important; height:100vh !important; min-height:100vh !important; background:url('{{ $invite['assets']['hero_mobile'] ?? ($invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg') }}') center/cover no-repeat !important; }
+            .wrap .hero-mobile picture { display:none !important; }
+            .wrap .hero-copy-mobile { width:90% !important; top:14% !important; }
+            .wrap .hero-copy-mobile .title { font-size:1.05rem !important; letter-spacing:3px !important; }
+            .wrap .hero-copy-mobile .names { font-size:clamp(2.5rem, 9vw, 3.6rem) !important; margin-top:8px !important; }
+            .wrap .hero-copy-mobile .date { font-size:.92rem !important; letter-spacing:4px !important; margin-top:10px !important; }
+            .wrap .hero, .wrap .section { width:100% !important; margin-left:0 !important; margin-right:0 !important; }
+            .wrap .section { min-height:auto !important; padding:44px 18px !important; }
+            .wrap .two { grid-template-columns:1fr !important; }
+            .wrap .proto { grid-template-columns:repeat(2, 1fr) !important; }
+            .wrap .couple-grid { grid-template-columns:1fr !important; gap:28px !important; }
+            .wrap .person-photo { width:140px !important; height:140px !important; margin-bottom:50px !important; }
+            .wrap .person-photo::after { width:160px !important; height:90px !important; bottom:-42px !important; }
+            .wrap .bg-gallery { padding:14px 0 !important; min-height:auto !important; }
+            .wrap .gallery, .wrap .gallery.full { grid-template-columns:repeat(2, 1fr) !important; }
+            .wrap .gallery.full { gap:8px !important; padding:8px !important; }
+            .wrap .gallery.full img { grid-column:span 1 !important; aspect-ratio:3 / 4 !important; min-height:180px !important; border-radius:10px !important; }
+            #bookIntro { left:auto !important; right:0 !important; width:var(--mobile-wrap) !important; }
+            #bookIntro .opening-video { width:100% !important; height:100% !important; }
+            #bookIntro .opening-overlay { width:90% !important; }
+        }
     </style>
 </head>
 <body>
     <canvas id="introCanvas"></canvas>
+    <div class="desktop-left" aria-hidden="true"></div>
     <div id="bookIntro">
         <video id="openingVideo" class="opening-video" autoplay muted playsinline preload="auto">
             <source src="/images/Tema-Blossom.mp4" type="video/mp4">
@@ -198,14 +255,29 @@
             @endforeach
         </div> --}}
         <div class="hero">
-            <picture>
-                <source media="(max-width: 860px)" srcset="{{ $invite['assets']['hero_mobile'] ?? ($invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg') }}">
-                <img class="hero-bg" src="{{ $invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg' }}" alt="Hero background">
-            </picture>
-            <div class="hero-copy">
-                <div class="title">The Wedding Of</div>
-                <div class="names">{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</div>
-                <div class="date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
+            <div class="hero-desktop">
+                <div class="hero-left">
+                    <img src="{{ $invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg' }}" alt="Hero desktop">
+                </div>
+                <div class="hero-right">
+                    <img class="hero-right-bg" src="{{ $invite['assets']['hero_mobile'] ?? ($invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg') }}" alt="Hero side">
+                    <div class="hero-copy hero-copy-desktop">
+                        <div class="title">The Wedding Of</div>
+                        <div class="names">{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</div>
+                        <div class="date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-mobile">
+                <picture>
+                    <source media="(max-width: 860px)" srcset="{{ $invite['assets']['hero_mobile'] ?? ($invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg') }}">
+                    <img class="hero-bg" src="{{ $invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg' }}" alt="Hero background">
+                </picture>
+                <div class="hero-copy hero-copy-mobile">
+                    <div class="title">The Wedding Of</div>
+                    <div class="names">{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</div>
+                    <div class="date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
+                </div>
             </div>
         </div>
 
@@ -475,12 +547,7 @@
         (function(){
             const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             const hero = document.querySelector('.hero');
-            const mobileOnly = window.matchMedia('(max-width: 860px)').matches;
             if(prefersReduced){
-                if(hero){ hero.classList.add('hero-seq'); }
-                return;
-            }
-            if(!mobileOnly){
                 if(hero){ hero.classList.add('hero-seq'); }
                 return;
             }
