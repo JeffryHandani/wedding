@@ -10,11 +10,21 @@
         :root { --text:#2c1b1f; --muted:#6b4c55; --border:#e7d7de; --primary:#b03060; --bg1:#fff0f5; --bg2:#f9f1f7; --bg3:#ffffff; --bg4:#f5f7ff; --bg5:#f1fbf7; --bg6:#fffdf2; --bg7:#f8f0ff; --teal:#55949a; }
         * { box-sizing:border-box; }
         body { margin:0; color:var(--text); background:#fff; font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-        .wrap { width:100vw; max-width:none; margin:0; padding:0; }
-        .hero { text-align:center; padding: 8vh 6vw 6vh; width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); min-height: 70vh; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--bg1); }
-        .title { font-family: Cinzel, Playfair Display, serif; font-size: clamp(1.8rem, 6vw, 3rem); letter-spacing:6px; text-transform:uppercase; }
+        .wrap { width:100%; max-width:none; margin:0; padding:0; }
+        .hero { position:relative; text-align:center; width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); line-height:0; overflow:hidden; background:var(--bg1); }
+        .hero-bg { width:100%; height:auto; display:block; }
+        .title { font-family: Cinzel, Playfair Display, serif; font-size: 20px; letter-spacing:6px; text-transform:uppercase; }
         .names { font-family: Great Vibes, Playfair Display, serif; font-size: clamp(3.4rem, 13vw, 7rem); line-height:1; color:var(--primary); margin-top:12px; }
         .date { margin-top:16px; letter-spacing:8px; font-weight:700; font-size:1.2rem; text-transform:uppercase; }
+        .hero-copy { position:absolute; left:50%; top:12%; transform:translate(-50%,-50%); width:min(94vw, 1200px); text-align:center; line-height:normal; }
+        @media (max-width: 860px) { .hero-copy { top:54%; width:94vw; } }
+        .hero .title, .hero .names, .hero .date { opacity:0; transform:translateY(14px); }
+        .hero.hero-seq .title, .hero.hero-seq .names, .hero.hero-seq .date { animation: heroTextIn .8s ease forwards; }
+        .hero.hero-seq .title { animation-delay:.2s; }
+        .hero.hero-seq .names { animation-delay:.7s; }
+        .hero.hero-seq .date { animation-delay:1.2s; }
+        @keyframes heroTextIn { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+        @media (prefers-reduced-motion: reduce) { .hero .title, .hero .names, .hero .date { opacity:1; transform:none; animation:none; } }
         .section { margin:0; padding:8vh 8vw; border-top:1px solid var(--border); background:#fff; width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); min-height:70vh; display:flex; flex-direction:column; justify-content:center; }
         .bg-couple { background: var(--bg3); }
         .bg-events { background: #9fa1a4; color:#ffffff; }
@@ -179,15 +189,21 @@
         </div>
     </div>
     <div class="wrap">
-        <div class="lang">
+        {{-- <div class="lang">
             @foreach($languages as $lang)
                 <a href="{{ route('lang.switch', ['locale' => $lang]) }}">{{ strtoupper($lang) }}</a>
             @endforeach
-        </div>
-        <div class="hero" style="background-image:url('{{ $invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg' }}'); background-size:cover; background-position:center;">
-            <div class="title">Bride & Groom</div>
-            <div class="names">{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</div>
-            <div class="date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
+        </div> --}}
+        <div class="hero">
+            <picture>
+                <source media="(max-width: 860px)" srcset="{{ $invite['assets']['hero_mobile'] ?? ($invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg') }}">
+                <img class="hero-bg" src="{{ $invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg' }}" alt="Hero background">
+            </picture>
+            <div class="hero-copy">
+                <div class="title">The Wedding Of</div>
+                <div class="names">{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</div>
+                <div class="date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
+            </div>
         </div>
 
         <div class="section bg-couple two">
@@ -454,6 +470,8 @@
             const bookIntro = document.getElementById('bookIntro');
             const book = bookIntro ? bookIntro.querySelector('.book') : null;
             const bookEnter = document.getElementById('bookEnter');
+            const hero = document.querySelector('.hero');
+            let closed = false;
             function showBook(){
                 if(!bookIntro || !book) return;
                 bookIntro.style.display = 'flex';
@@ -463,12 +481,15 @@
                 setTimeout(closeBook, 5200);
             }
             function closeBook(){
+                if(closed) return;
+                closed = true;
                 bookIntro.style.opacity = '1';
                 bookIntro.style.transition = 'opacity .6s ease';
                 bookIntro.style.opacity = '0';
                 const setAlpha = window.setIntroAmbientAlpha || null;
                 setTimeout(()=>{ 
                     bookIntro.style.display = 'none'; 
+                    if(hero){ hero.classList.add('hero-seq'); }
                     if(setAlpha) setAlpha(0.0); 
                     if(window.stopIntroAmbient) window.stopIntroAmbient(); 
                 }, 600);

@@ -48,7 +48,7 @@ return [
         ],
     ],
     'media' => [
-        'hero_image_url' => 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1480&auto=format&fit=crop',
+        'hero_image_url' => '/images/top.jpeg',
         'video_file_url' => null,
         'video_embed_url' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
         'map_embed_url' => 'https://www.google.com/maps?q=Grand+Ballroom+Jakarta&output=embed',
@@ -94,8 +94,8 @@ return [
     ],
     'languages' => ['en', 'id'],
     'assets' => [
-        'hero_desktop' => '/images/hero_bg.svg',
-        'hero_mobile' => '/images/hero_bg.svg',
+        'hero_desktop' => '/images/top_desktop.jpeg',
+        'hero_mobile' => '/images/top.jpeg',
         'ornament_divider' => '/images/ornament_divider.svg',
         'icon_matrimony' => '/images/icon_rings.svg',
         'icon_reception' => '/images/icon_glasses.svg',
