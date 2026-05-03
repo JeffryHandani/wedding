@@ -59,9 +59,10 @@ return [
             ['url' => '/images/gallery-4.jpg', 'alt' => 'Gallery 4'],
             ['url' => '/images/gallery-5.jpg', 'alt' => 'Gallery 5'],
             ['url' => '/images/gallery-6.jpg', 'alt' => 'Gallery 6'],
-            ['url' => '/images/gallery-7.jpg', 'alt' => 'Gallery 7'],
-            ['url' => '/images/gallery-8.jpg', 'alt' => 'Gallery 8'],
+            // ['url' => '/images/gallery-7.jpg', 'alt' => 'Gallery 7'],
+            // ['url' => '/images/gallery-8.jpg', 'alt' => 'Gallery 8'],
         ],
+        'book_cover' => '/images/book-cover.jpg'
     ],
     'calendar' => [
         'duration_minutes' => 180,
@@ -74,16 +75,16 @@ return [
         [
             'label' => 'BCA',
             'logo' => '/images/bank_bca.svg',
-            'account_name' => 'Brian Jericho',
-            'account_number' => '6240218591',
-            'qr_image' => '/images/qr_placeholder.svg',
+            'account_name' => 'Zefanya Priscilla',
+            'account_number' => '6040325822',
+            // 'qr_image' => '/images/qr_placeholder.svg',
         ],
         [
-            'label' => 'QRIS',
+            'label' => 'TNG',
             'logo' => null,
-            'account_name' => null,
+            'account_name' => 'Jeffry Handani',
             'account_number' => null,
-            'qr_image' => '/images/qr_placeholder.svg',
+            'qr_image' => '/images/tng.jpeg',
         ],
     ],
     'custom_actions' => [

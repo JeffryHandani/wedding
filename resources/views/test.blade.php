@@ -112,12 +112,18 @@
         .card h3 { margin:0 0 6px; font-family:Cinzel, Playfair Display, serif; letter-spacing:4px; font-size:1.1rem; text-align:center; text-transform:uppercase; }
         .scripture-card { max-width: 760px; margin: 0 auto; padding: 16px 20px; background: rgba(255,255,255,0.85); border:1px solid var(--border); border-radius:14px; box-shadow:0 8px 18px rgba(0,0,0,0.06); }
         .scripture { text-align:center; font-family: Playfair Display, serif; font-size:1rem; color:#4b3c42; line-height:1.6; }
-        .person { text-align:center; }
-        .person-photo { width:min(280px, 100%); aspect-ratio: 2 / 3; margin:0 auto 14px; border-radius:14px; overflow:hidden; border:1px solid var(--border); box-shadow:0 10px 24px rgba(0,0,0,0.08); background:#f2f2f2; }
+        .couple-head { text-align:center; margin-bottom:24px; }
+        .couple-title { font-family:Cinzel, Playfair Display, serif; letter-spacing:4px; font-size:clamp(1.2rem, 2vw, 1.7rem); color:#9ba1a7; text-transform:uppercase; }
+        .couple-grid { display:grid; grid-template-columns:repeat(2, minmax(240px, 360px)); gap:52px; justify-content:center; align-items:start; }
+        .couple-item { text-align:center; }
+        .person-photo { width:200px; height:200px; margin:0 auto 16px; border-radius:999px; overflow:hidden; border:1px solid #d9dde2; box-shadow:0 10px 24px rgba(0,0,0,0.08); background:#f2f2f2; }
         .person-photo img { width:100%; height:100%; object-fit:cover; display:block; }
-        .role { font-family:Cinzel, Playfair Display, serif; letter-spacing:4px; font-size:1.1rem; text-transform:uppercase; }
-        .person-name { font-family: Great Vibes, Playfair Display, serif; font-size:2.6rem; color:var(--primary); line-height:1; }
-        .parents { color:var(--muted); margin-top:8px; letter-spacing:0.5px; }
+        .person-name { font-family: Playfair Display, serif; font-size:2rem; color:#6f7174; line-height:1.1; margin-bottom:6px; }
+        .role { font-family:Poppins, sans-serif; text-transform:uppercase; font-size:.78rem; font-weight:700; letter-spacing:1.4px; color:#8a8f96; }
+        .parents { color:#666d75; margin-top:4px; font-size:.86rem; line-height:1.45; }
+        .person-social { margin-top:10px; color:#7a7f86; line-height:1; }
+        .person-social svg { width:14px; height:14px; fill:currentColor; vertical-align:middle; }
+        @media (max-width: 860px) { .couple-grid { grid-template-columns:1fr; gap:28px; } .person-photo { width:118px; height:118px; } }
         .event { text-align:center; }
         .venue { font-family: Playfair Display, serif; font-size:1.2rem; }
         .addr { color:var(--muted); margin-top:10px; font-size:1rem; line-height:1.7; }
@@ -152,8 +158,8 @@
         .page.right { transform-origin: right center; transform: rotateY(-90deg); border-left:none; border-top-right-radius:18px; border-bottom-right-radius:18px; }
         .page .inner { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:24px; }
         .page.left .inner img { width:100%; height:100%; object-fit:cover; border-top-left-radius:18px; border-bottom-left-radius:18px; }
-        .intro-duo { width:100%; height:100%; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-        .intro-duo img { width:100%; height:100%; object-fit:cover; border-radius:12px; }
+        .intro-duo { width:100%; height:100%; display:block; }
+        .intro-duo img { width:100%; height:100%; object-fit:cover; border-radius:14px; display:block; }
         .page.right .names { font-family: Great Vibes, Playfair Display, serif; font-size: clamp(2.2rem, 7vw, 5rem); color:#b03060; line-height:1; text-align:center; }
         .page.right .sub { margin-top:8px; font-family:Poppins; color:#6b4c55; letter-spacing:4px; font-weight:700; text-align:center; }
         .book.open .page.left { animation: openLeft 1.2s cubic-bezier(.2,.8,.2,1) forwards; }
@@ -173,8 +179,7 @@
                 <div class="page left">
                     <div class="inner">
                         <div class="intro-duo">
-                            <img src="{{ $invite['couple']['groom_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="Groom photo">
-                            <img src="{{ $invite['couple']['bride_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="Bride photo">
+                            <img src="{{ $invite['media']['book_cover']  }}" alt="Book cover">
                         </div>
                     </div>
                 </div>
@@ -206,22 +211,27 @@
             </div>
         </div>
 
-        <div class="section bg-couple two">
-            <div class="card person">
-                <div class="person-photo">
-                    <img src="{{ $invite['couple']['groom_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="{{ $invite['couple']['groom'] }} photo">
-                </div>
-                <div class="role">Groom</div>
-                <div class="person-name">{{ $invite['couple']['groom'] }}</div>
-                <div class="parents">Second Son of<br>{{ $invite['families']['groom_parents'][0] ?? '' }}<br>&<br>{{ $invite['families']['groom_parents'][1] ?? '' }}</div>
+        <div class="section bg-couple">
+            <div class="couple-head">
+                <div class="couple-title">Bride & Groom</div>
             </div>
-            <div class="card person">
-                <div class="person-photo">
-                    <img src="{{ $invite['couple']['bride_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="{{ $invite['couple']['bride'] }} photo">
+            <div class="couple-grid">
+                <div class="couple-item">
+                    <div class="person-photo">
+                        <img src="{{ $invite['couple']['groom_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="{{ $invite['couple']['groom'] }} photo">
+                    </div>
+                    <div class="person-name">{{ $invite['couple']['groom'] }}</div>
+                    <div class="role">Second Son of</div>
+                    <div class="parents">{{ $invite['families']['groom_parents'][0] ?? '' }} & {{ $invite['families']['groom_parents'][1] ?? '' }}</div>
                 </div>
-                <div class="role">Bride</div>
-                <div class="person-name">{{ $invite['couple']['bride'] }}</div>
-                <div class="parents">First Daughter of<br>{{ $invite['families']['bride_parents'][0] ?? '' }}<br>&<br>{{ $invite['families']['bride_parents'][1] ?? '' }}</div>
+                <div class="couple-item">
+                    <div class="person-photo">
+                        <img src="{{ $invite['couple']['bride_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="{{ $invite['couple']['bride'] }} photo">
+                    </div>
+                    <div class="person-name">{{ $invite['couple']['bride'] }}</div>
+                    <div class="role">First Daughter of</div>
+                    <div class="parents">{{ $invite['families']['bride_parents'][0] ?? '' }} & {{ $invite['families']['bride_parents'][1] ?? '' }}</div>
+                </div>
             </div>
         </div>
 
@@ -619,6 +629,31 @@
             </div>`;
             modal.style.display = 'none';
             document.body.appendChild(modal);
+            async function copyText(value){
+                const text = (value || '').trim();
+                if(!text) return false;
+                try {
+                    if(navigator.clipboard && window.isSecureContext){
+                        await navigator.clipboard.writeText(text);
+                        return true;
+                    }
+                } catch(_) {}
+                try {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.setAttribute('readonly', '');
+                    ta.style.position = 'fixed';
+                    ta.style.top = '-9999px';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    ta.setSelectionRange(0, text.length);
+                    const ok = document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    return !!ok;
+                } catch(_) {
+                    return false;
+                }
+            }
             function setActive(i){
                 const opts = @json($invite['gifts_modal'] ?? []);
                 const body = document.getElementById('giftBody');
@@ -637,11 +672,11 @@
                 });
                 const cp = document.getElementById('copyGift');
                 if(cp){
-                    cp.onclick = ()=>{
+                    cp.onclick = async ()=>{
                         const num = document.getElementById('giftAccount')?.textContent || '';
                         if(num){
-                            navigator.clipboard.writeText(num);
-                            cp.textContent = 'Copied';
+                            const ok = await copyText(num);
+                            cp.textContent = ok ? 'Copied' : 'Copy failed';
                             setTimeout(()=>{ cp.textContent = 'Copy Number'; }, 1200);
                         }
                     };
