@@ -13,10 +13,12 @@ return [
     'couple' => [
         'groom' => 'Jeffry',
         'bride' => 'Priscilla',
+        'groom_photo' => '/images/groom.jpg',
+        'bride_photo' => '/images/bride.jpg',
     ],
     'families' => [
-        'groom_parents' => ['Mr. Eddy Jericho', 'Mrs. Ana Muliawan'],
-        'bride_parents' => ['Mr. Soedirman', 'Mrs. Yanti'],
+        'groom_parents' => ['Mr. Marthios Santioso', 'Mrs. Meitalia Hamidy'],
+        'bride_parents' => ['Mr. Welly Sudirman', 'Mrs. Tjong Sioe Fun (Yenny)'],
     ],
     'scripture' => "And now these three remain: faith, hope, and love. But the greatest of these is love.",
     'events' => [
@@ -51,12 +53,14 @@ return [
         'video_embed_url' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
         'map_embed_url' => 'https://www.google.com/maps?q=Grand+Ballroom+Jakarta&output=embed',
         'gallery' => [
-            ['url' => 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop', 'alt' => 'Engagement'],
-            ['url' => 'https://images.unsplash.com/photo-1495567720989-cebdbdd97913?q=80&w=1200&auto=format&fit=crop', 'alt' => 'Ceremony'],
-            ['url' => 'https://placehold.co/1200x800?text=Engagement', 'alt' => 'Engagement'],
-            ['url' => 'https://placehold.co/1200x800?text=Bride+%26+Groom', 'alt' => 'Bride & Groom'],
-            ['url' => 'https://placehold.co/1200x800?text=Ceremony', 'alt' => 'Ceremony'],
-            ['url' => 'https://placehold.co/1200x800?text=Reception', 'alt' => 'Reception'],
+            ['url' => '/images/gallery-1.jpeg', 'alt' => 'Gallery 1'],
+            ['url' => '/images/gallery-2.jpg', 'alt' => 'Gallery 2'],
+            ['url' => '/images/gallery-3.jpg', 'alt' => 'Gallery 3'],
+            ['url' => '/images/gallery-4.jpg', 'alt' => 'Gallery 4'],
+            ['url' => '/images/gallery-5.jpg', 'alt' => 'Gallery 5'],
+            ['url' => '/images/gallery-6.jpg', 'alt' => 'Gallery 6'],
+            ['url' => '/images/gallery-7.jpg', 'alt' => 'Gallery 7'],
+            ['url' => '/images/gallery-8.jpg', 'alt' => 'Gallery 8'],
         ],
     ],
     'calendar' => [

@@ -16,11 +16,6 @@
         .names { font-family: Great Vibes, Playfair Display, serif; font-size: clamp(3.4rem, 13vw, 7rem); line-height:1; color:var(--primary); margin-top:12px; }
         .date { margin-top:16px; letter-spacing:8px; font-weight:700; font-size:1.2rem; text-transform:uppercase; }
         .section { margin:0; padding:8vh 8vw; border-top:1px solid var(--border); background:#fff; width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); min-height:70vh; display:flex; flex-direction:column; justify-content:center; }
-        .bg-scripture { 
-            background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('{{ $invite['assets']['scripture_bg'] ?? '/images/scripture_bg.svg' }}') center/cover no-repeat; 
-            min-height: 32vh; 
-            padding: 5vh 8vw; 
-        }
         .bg-couple { background: var(--bg3); }
         .bg-events { background: #9fa1a4; color:#ffffff; }
         .bg-protocol { background: var(--bg5); }
@@ -30,10 +25,19 @@
         .bg-wishes { background: var(--bg3); }
         .bg-gallery { background: var(--bg3); padding: 2vh 0; min-height: 100vh; }
         .gallery { display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; }
-        .gallery.full { grid-template-columns: repeat(3, 1fr); gap:0; }
-        @media (max-width: 860px) { .gallery, .gallery.full { grid-template-columns: repeat(2, 1fr); } }
+        .gallery.full { grid-template-columns: repeat(12, 1fr); grid-auto-flow:dense; gap:10px; padding:10px; }
+        @media (max-width: 860px) { .gallery { grid-template-columns: repeat(2, 1fr); } .gallery.full { grid-template-columns: repeat(2, 1fr); gap:8px; padding:8px; } }
         .gallery img { width:100%; height:200px; object-fit:cover; border-radius:12px; border:1px solid var(--border); cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,0.04); }
-        .gallery.full img { height: 48vh; border-radius:0; border:none; box-shadow:none; }
+        .gallery.full img { height:100%; min-height:220px; border-radius:14px; border:none; box-shadow:none; }
+        .gallery.full img:nth-child(1) { grid-column: span 7; aspect-ratio: 16 / 9; }
+        .gallery.full img:nth-child(2) { grid-column: span 5; aspect-ratio: 3 / 4; }
+        .gallery.full img:nth-child(3) { grid-column: span 4; aspect-ratio: 4 / 5; }
+        .gallery.full img:nth-child(4) { grid-column: span 8; aspect-ratio: 21 / 9; }
+        .gallery.full img:nth-child(5) { grid-column: span 6; aspect-ratio: 1 / 1; }
+        .gallery.full img:nth-child(6) { grid-column: span 6; aspect-ratio: 4 / 3; }
+        .gallery.full img:nth-child(7) { grid-column: span 5; aspect-ratio: 3 / 4; }
+        .gallery.full img:nth-child(8) { grid-column: span 7; aspect-ratio: 16 / 10; }
+        @media (max-width: 860px) { .gallery.full img { grid-column: span 1 !important; aspect-ratio: 3 / 4; min-height:180px; border-radius:10px; } }
         .lightbox { position:fixed; inset:0; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; z-index:1000; }
         .lightbox img { max-width:90vw; max-height:80vh; border-radius:12px; box-shadow:0 30px 60px rgba(0,0,0,0.5); }
         .gift-magic { position:relative; width:clamp(140px, 18vw, 220px); margin:12px auto 8px; }
@@ -64,6 +68,19 @@
         .wishes-form .btn-teal { display:block; margin:16px auto 0; padding:12px 18px; letter-spacing:3px; text-transform:uppercase; border-radius:10px; }
         .wishes-notice { color:var(--primary); margin-top:8px; }
         .wishes-list { max-width:520px; margin:16px auto 0; text-align:center; }
+        .wish-card { display:flex; gap:12px; text-align:left; background:#fff; border:1px solid #edf0f2; border-radius:12px; padding:12px; margin-bottom:10px; box-shadow:0 4px 10px rgba(0,0,0,0.04); }
+        .wish-avatar { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem; color:#1d2430; flex-shrink:0; background:#f2d9ff; }
+        .wish-body { min-width:0; flex:1; }
+        .wish-head { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+        .wish-name { font-weight:700; font-size:1.05rem; line-height:1.2; color:#0f172a; }
+        .wish-badge { padding:2px 10px; border-radius:999px; font-size:0.78rem; font-weight:700; letter-spacing:.3px; background:#c8f1f7; color:#0c5661; }
+        .wish-badge.absent { background:#bfe6f0; color:#0b4a57; }
+        .wish-text { margin-top:4px; color:#111827; line-height:1.4; }
+        .wish-time { margin-top:6px; color:#374151; font-size:0.95rem; }
+        .wish-pagination { display:flex; align-items:center; justify-content:center; gap:10px; margin-top:14px; }
+        .wish-page-btn { border:1px solid #d9e1e7; background:#fff; color:#1f2937; border-radius:999px; padding:6px 12px; font-weight:600; cursor:pointer; }
+        .wish-page-btn:disabled { opacity:.45; cursor:not-allowed; }
+        .wish-page-info { color:#4b5563; font-size:0.92rem; min-width:84px; text-align:center; }
         .rsvp-wrap { max-width:520px; margin:0 auto; text-align:center; }
         .rsvp-kicker { letter-spacing:4px; font-weight:700; font-size:0.9rem; margin-bottom:6px; }
         .rsvp-title { font-family: Playfair Display, serif; font-size: clamp(2.2rem, 7vw, 3.2rem); letter-spacing:4px; margin-bottom:8px; }
@@ -86,6 +103,8 @@
         .scripture-card { max-width: 760px; margin: 0 auto; padding: 16px 20px; background: rgba(255,255,255,0.85); border:1px solid var(--border); border-radius:14px; box-shadow:0 8px 18px rgba(0,0,0,0.06); }
         .scripture { text-align:center; font-family: Playfair Display, serif; font-size:1rem; color:#4b3c42; line-height:1.6; }
         .person { text-align:center; }
+        .person-photo { width:min(280px, 100%); aspect-ratio: 2 / 3; margin:0 auto 14px; border-radius:14px; overflow:hidden; border:1px solid var(--border); box-shadow:0 10px 24px rgba(0,0,0,0.08); background:#f2f2f2; }
+        .person-photo img { width:100%; height:100%; object-fit:cover; display:block; }
         .role { font-family:Cinzel, Playfair Display, serif; letter-spacing:4px; font-size:1.1rem; text-transform:uppercase; }
         .person-name { font-family: Great Vibes, Playfair Display, serif; font-size:2.6rem; color:var(--primary); line-height:1; }
         .parents { color:var(--muted); margin-top:8px; letter-spacing:0.5px; }
@@ -123,6 +142,8 @@
         .page.right { transform-origin: right center; transform: rotateY(-90deg); border-left:none; border-top-right-radius:18px; border-bottom-right-radius:18px; }
         .page .inner { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:24px; }
         .page.left .inner img { width:100%; height:100%; object-fit:cover; border-top-left-radius:18px; border-bottom-left-radius:18px; }
+        .intro-duo { width:100%; height:100%; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+        .intro-duo img { width:100%; height:100%; object-fit:cover; border-radius:12px; }
         .page.right .names { font-family: Great Vibes, Playfair Display, serif; font-size: clamp(2.2rem, 7vw, 5rem); color:#b03060; line-height:1; text-align:center; }
         .page.right .sub { margin-top:8px; font-family:Poppins; color:#6b4c55; letter-spacing:4px; font-weight:700; text-align:center; }
         .book.open .page.left { animation: openLeft 1.2s cubic-bezier(.2,.8,.2,1) forwards; }
@@ -141,7 +162,10 @@
             <div class="book">
                 <div class="page left">
                     <div class="inner">
-                        <img src="{{ $invite['media']['hero_image_url'] ?? '/images/hero_bg.svg' }}" alt="Photo">
+                        <div class="intro-duo">
+                            <img src="{{ $invite['couple']['groom_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="Groom photo">
+                            <img src="{{ $invite['couple']['bride_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="Bride photo">
+                        </div>
                     </div>
                 </div>
                 <div class="page right">
@@ -166,19 +190,19 @@
             <div class="date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
         </div>
 
-        <div class="section bg-scripture">
-            <div class="scripture-card">
-                <div class="scripture">{{ $invite['scripture'] ?? '' }}</div>
-            </div>
-        </div>
-
         <div class="section bg-couple two">
             <div class="card person">
+                <div class="person-photo">
+                    <img src="{{ $invite['couple']['groom_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="{{ $invite['couple']['groom'] }} photo">
+                </div>
                 <div class="role">Groom</div>
                 <div class="person-name">{{ $invite['couple']['groom'] }}</div>
                 <div class="parents">Second Son of<br>{{ $invite['families']['groom_parents'][0] ?? '' }}<br>&<br>{{ $invite['families']['groom_parents'][1] ?? '' }}</div>
             </div>
             <div class="card person">
+                <div class="person-photo">
+                    <img src="{{ $invite['couple']['bride_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="{{ $invite['couple']['bride'] }} photo">
+                </div>
                 <div class="role">Bride</div>
                 <div class="person-name">{{ $invite['couple']['bride'] }}</div>
                 <div class="parents">First Daughter of<br>{{ $invite['families']['bride_parents'][0] ?? '' }}<br>&<br>{{ $invite['families']['bride_parents'][1] ?? '' }}</div>
@@ -291,12 +315,32 @@
                     <button type="submit" class="btn btn-teal">SEND WISHES</button>
                     <div id="wishNotice" class="wishes-notice"></div>
                 </form>
+                <hr>
                 <div id="wishList" class="list wishes-list">
                     @forelse($wishes as $wish)
-                        <div class="wish"><strong>{{ $wish->name }}</strong> — {{ $wish->message }}</div>
+                        @php
+                            $nameParts = preg_split('/\s+/', trim($wish->name));
+                            $initials = strtoupper(substr($nameParts[0] ?? '', 0, 1) . substr($nameParts[1] ?? '', 0, 1));
+                            $isAbsent = \Illuminate\Support\Str::contains(\Illuminate\Support\Str::lower($wish->message ?? ''), ['tidak hadir', 'not attending', 'cannot attend', 'can not attend']);
+                        @endphp
+                        <div class="wish-card">
+                            <div class="wish-avatar">{{ $initials ?: 'G' }}</div>
+                            <div class="wish-body">
+                                <div class="wish-head">
+                                    <span class="wish-name">{{ $wish->name }}</span>
+                                </div>
+                                <div class="wish-text">{{ $wish->message }}</div>
+                                <div class="wish-time">{{ optional($wish->created_at)->format('j F Y \a\t H.i') }}</div>
+                            </div>
+                        </div>
                     @empty
-                        <div class="wish">No wishes found</div>
+                        <div class="wish wish-empty">No wishes found</div>
                     @endforelse
+                </div>
+                <div id="wishPagination" class="wish-pagination" style="display:none;">
+                    <button id="wishPrev" type="button" class="wish-page-btn">Prev</button>
+                    <span id="wishPageInfo" class="wish-page-info">1 / 1</span>
+                    <button id="wishNext" type="button" class="wish-page-btn">Next</button>
                 </div>
             </div>
         </div>
@@ -437,12 +481,83 @@
             const notice = document.getElementById('wishNotice');
             postForm(this, '{{ route('wishes.store') }}', notice, (res)=>{
                 const w = res.wish;
+                const initials = (w.name || '')
+                    .trim()
+                    .split(/\s+/)
+                    .slice(0, 2)
+                    .map((p)=> (p[0] || '').toUpperCase())
+                    .join('') || 'G';
+                const msg = (w.message || '');
+                const lower = msg.toLowerCase();
+                const isAbsent = lower.includes('tidak hadir') || lower.includes('not attending') || lower.includes('cannot attend') || lower.includes('can not attend');
+                const dt = w.created_at ? new Date(w.created_at) : new Date();
+                const timeText = dt.toLocaleString('en-GB', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                }).replace(',', ' at').replace(':', '.');
                 const div = document.createElement('div');
-                div.className = 'wish';
-                div.innerHTML = `<strong>${w.name}</strong> — ${w.message}`;
+                div.className = 'wish-card';
+                div.innerHTML = `
+                    <div class="wish-avatar">${initials}</div>
+                    <div class="wish-body">
+                        <div class="wish-head">
+                            <span class="wish-name">${w.name || ''}</span>
+                            <span class="wish-badge${isAbsent ? ' absent' : ''}">${isAbsent ? 'Tidak Hadir' : 'Hadir'}</span>
+                        </div>
+                        <div class="wish-text">${msg}</div>
+                        <div class="wish-time">${timeText}</div>
+                    </div>
+                `;
                 document.getElementById('wishList').prepend(div);
+                if(window.refreshWishPagination){
+                    window.refreshWishPagination(true);
+                }
             });
         });
+        (function(){
+            const list = document.getElementById('wishList');
+            const pager = document.getElementById('wishPagination');
+            const prev = document.getElementById('wishPrev');
+            const next = document.getElementById('wishNext');
+            const info = document.getElementById('wishPageInfo');
+            if(!list || !pager || !prev || !next || !info) return;
+            const pageSize = 5;
+            let currentPage = 1;
+            function cards(){
+                return Array.from(list.querySelectorAll('.wish-card'));
+            }
+            function emptyState(){
+                return list.querySelector('.wish-empty');
+            }
+            function render(){
+                const items = cards();
+                const empty = emptyState();
+                if(empty){ empty.style.display = items.length ? 'none' : ''; }
+                const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
+                if(currentPage > totalPages){ currentPage = totalPages; }
+                if(currentPage < 1){ currentPage = 1; }
+                const start = (currentPage - 1) * pageSize;
+                const end = start + pageSize;
+                items.forEach((el, i)=>{
+                    el.style.display = (i >= start && i < end) ? '' : 'none';
+                });
+                pager.style.display = items.length > pageSize ? 'flex' : 'none';
+                info.textContent = `${currentPage} / ${totalPages}`;
+                prev.disabled = currentPage <= 1;
+                next.disabled = currentPage >= totalPages;
+            }
+            prev.addEventListener('click', ()=>{ currentPage -= 1; render(); });
+            next.addEventListener('click', ()=>{ currentPage += 1; render(); });
+            window.refreshWishPagination = function(resetToFirst){
+                if(resetToFirst){ currentPage = 1; }
+                render();
+            };
+            render();
+        })();
         (function(){
             const open = document.getElementById('openGift');
             if(!open) return;
