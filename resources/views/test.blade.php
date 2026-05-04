@@ -7,7 +7,7 @@
     <title>{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        :root { --text:#2c1b1f; --muted:#6b4c55; --border:#e7d7de; --primary:#b03060; --bg1:#fff0f5; --bg2:#f9f1f7; --bg3:#ffffff; --bg4:#f5f7ff; --bg5:#f1fbf7; --bg6:#fffdf2; --bg7:#f8f0ff; --teal:#55949a; --mobile-wrap:450px; }
+        :root { --text:#2c1b1f; --muted:#6b4c55; --border:#e7d7de; --primary:#b03060; --bg1:#fff0f5; --bg2:#f9f1f7; --bg3:#ffffff; --bg4:#f5f7ff; --bg5:#f1fbf7; --bg6:#fffdf2; --bg7:#f8f0ff; --teal:#55949a; --mobile-wrap:500px; }
         * { box-sizing:border-box; }
         body { margin:0; color:var(--text); background:#fff; font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
         .wrap { width:100%; max-width:none; margin:0; padding:0; }
@@ -216,11 +216,11 @@
         #introCanvas { position:fixed; inset:0; z-index:100; pointer-events:none; }
         #bookIntro { position:fixed; inset:0; z-index:110; display:none; align-items:center; justify-content:center; background:#000; overflow:hidden; }
         .opening-video { width:100vw; height:100vh; object-fit:cover; display:block; }
-        .opening-overlay { position:absolute; left:50%; bottom:10vh; transform:translateX(-50%) translateY(10px); width:min(92vw, 980px); text-align:center; color:#fff; opacity:0; transition:opacity .6s ease, transform .6s ease; text-shadow:0 2px 12px rgba(0,0,0,.35); }
+        .opening-overlay { position:absolute; left:50%; bottom:14vh; transform:translateX(-50%) translateY(10px); width:min(92vw, 980px); text-align:center; color:#fff; opacity:0; transition:opacity .6s ease, transform .6s ease; text-shadow:0 4px 18px rgba(36,14,25,.62), 0 1px 0 rgba(255,255,255,.2); filter:drop-shadow(0 10px 22px rgba(117,62,87,.28)); }
         #bookIntro.show-names .opening-overlay { opacity:1; transform:translateX(-50%) translateY(0); }
-        .opening-kicker { font-family:Cinzel, Playfair Display, serif; font-size:clamp(1rem, 2.2vw, 1.5rem); letter-spacing:4px; text-transform:uppercase; }
-        .opening-names { margin-top:8px; font-family:Great Vibes, Playfair Display, serif; font-size:clamp(2.6rem, 8vw, 5.2rem); line-height:1; }
-        .opening-date { margin-top:8px; letter-spacing:6px; font-weight:700; font-size:clamp(.9rem, 2vw, 1.2rem); text-transform:uppercase; }
+        .opening-kicker { font-family:Cinzel, Playfair Display, serif; font-size:clamp(1rem, 2.2vw, 1.5rem); letter-spacing:4px; text-transform:uppercase; color:#7f4f63; text-shadow:0 4px 14px rgba(28,10,18,.58), 0 0 1px rgba(255,255,255,.28); }
+        .opening-names { margin-top:8px; font-family:Great Vibes, Playfair Display, serif; font-size:clamp(2.6rem, 8vw, 5.2rem); line-height:1; color:#b03060; text-shadow:0 6px 18px rgba(40,12,26,.65), 0 0 2px rgba(255,255,255,.28); -webkit-text-stroke:1px rgba(45,18,30,.18); }
+        .opening-date { margin-top:8px; letter-spacing:6px; font-weight:700; font-size:clamp(.9rem, 2vw, 1.2rem); text-transform:uppercase; color:#74475a; text-shadow:0 4px 14px rgba(28,10,18,.58), 0 0 1px rgba(255,255,255,.30); }
         .book { position:relative; width:clamp(320px, 80vw, 980px); height:clamp(220px, 60vh, 560px); perspective:1200px; display:flex; align-items:center; justify-content:center; }
         .page { position:relative; width:50%; height:70%; background:#fff; border:1px solid #e7d7de; box-shadow:0 20px 40px rgba(0,0,0,0.18); transform-style:preserve-3d; }
         .page.left { transform-origin: left center; transform: rotateY(90deg); border-right:none; border-top-left-radius:18px; border-bottom-left-radius:18px; }
@@ -597,23 +597,66 @@
                 if(openingVideo){
                     setEnterReady(false);
                     bookIntro.classList.remove('show-names');
+                    // Best-effort autoplay (some phones require a user gesture even if muted).
                     openingVideo.muted = true;
                     openingVideo.defaultMuted = true;
                     openingVideo.autoplay = true;
+                    openingVideo.volume = 0;
+                    openingVideo.playsInline = true;
                     openingVideo.setAttribute('muted', '');
                     openingVideo.setAttribute('playsinline', '');
                     openingVideo.setAttribute('webkit-playsinline', '');
-                    openingVideo.currentTime = 0;
-                    const tryPlay = () => openingVideo.play().catch(()=>{
-                        // If autoplay fails, allow manual proceed immediately.
-                        bookIntro.classList.add('show-names');
-                        setEnterReady(true);
-                    });
-                    tryPlay();
-                    // Extra retry for mobile browsers that delay media start.
-                    setTimeout(()=>{ if(openingVideo.paused) tryPlay(); }, 250);
+
+                    const trySeekStart = () => { try { openingVideo.currentTime = 0; } catch(_) {} };
+                    const gestureEvents = ['pointerdown', 'touchstart', 'touchend', 'mousedown', 'keydown'];
+                    let playAttempts = 0;
+                    let gestureBound = false;
+
+                    const bindGestureToPlay = () => {
+                        if(gestureBound) return;
+                        gestureBound = true;
+                        const handler = () => { tryPlay('gesture'); };
+                        gestureEvents.forEach((ev)=>{
+                            window.addEventListener(ev, handler, { once:true, passive:true, capture:true });
+                        });
+                    };
+
+                    const tryPlay = (_reason) => {
+                        playAttempts += 1;
+                        let p;
+                        try { p = openingVideo.play(); } catch(_) { p = null; }
+                        if(!p || typeof p.then !== 'function'){
+                            bindGestureToPlay();
+                            return;
+                        }
+                        p.catch(()=>{
+                            // Keep the user out of a "press play" requirement: start on first tap anywhere.
+                            bindGestureToPlay();
+                            if(playAttempts < 6){
+                                const delay = Math.min(1500, 150 * playAttempts * playAttempts);
+                                setTimeout(()=>{ if(openingVideo.paused) tryPlay('retry'); }, delay);
+                            } else {
+                                // Last-resort: don't trap users forever if a device blocks playback completely.
+                                setTimeout(()=>{
+                                    if(openingVideo.paused){
+                                        bookIntro.classList.add('show-names');
+                                        setEnterReady(true);
+                                    }
+                                }, 1200);
+                            }
+                        });
+                    };
+
+                    // Reset playback safely (iOS can throw if currentTime is set too early).
+                    try { openingVideo.pause(); } catch(_) {}
+                    try { openingVideo.load(); } catch(_) {}
+                    trySeekStart();
+                    openingVideo.addEventListener('loadedmetadata', trySeekStart, { once:true });
+                    openingVideo.addEventListener('canplay', ()=>{ if(openingVideo.paused) tryPlay('canplay'); });
+                    document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && openingVideo.paused) tryPlay('vis'); });
+                    tryPlay('init');
                 } else {
-                    setTimeout(()=>{ bookIntro.classList.add('show-names'); }, 18000);
+                    setTimeout(()=>{ bookIntro.classList.add('show-names'); }, 16000);
                     setEnterReady(true);
                 }
             }
