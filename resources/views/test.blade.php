@@ -416,8 +416,7 @@
             <div style="text-align:center; margin-top:16px;">
                 <div class="gift-magic">
                     <span class="glow"></span>
-                    <img src="{{ $invite['assets']['gift_illustration'] ?? '/images/gift_magic.svg' }}" alt="Gift">
-                    <span class="lid"></span>
+                    <img src="/images/gift.png" alt="Gift">
                     <span class="star s1"></span>
                     <span class="star s2"></span>
                     <span class="star s3"></span>
