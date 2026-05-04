@@ -628,6 +628,9 @@
                 setToggleState();
                 tryPlay();
             }
+            function startMusicWithVideo(){
+                tryPlay();
+            }
 
             ['pointerdown','touchstart','mousedown','keydown'].forEach((ev)=>{
                 window.addEventListener(ev, startMusicFromGesture, { once:true, passive:true, capture:true });
@@ -640,6 +643,7 @@
                 if(!audio.muted){ tryPlay(); }
             });
             window.startBackgroundMusic = startMusicFromGesture;
+            window.startBackgroundMusicAuto = startMusicWithVideo;
 
             document.addEventListener('visibilitychange', ()=>{
                 if(document.hidden){
@@ -757,6 +761,11 @@
                 }, 600);
             }
             if(openingVideo){
+                const startMusicOnVideoStart = () => {
+                    if(window.startBackgroundMusicAuto){ window.startBackgroundMusicAuto(); }
+                };
+                openingVideo.addEventListener('play', startMusicOnVideoStart);
+                openingVideo.addEventListener('playing', startMusicOnVideoStart);
                 openingVideo.addEventListener('timeupdate', ()=>{
                     if(openingVideo.currentTime >= 18){
                         bookIntro.classList.add('show-names');
