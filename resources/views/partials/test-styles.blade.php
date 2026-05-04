@@ -241,6 +241,15 @@
         bottom:24px;
         transform:translateX(-50%);
     }
+    @media (min-width: 861px) {
+        body.pre-invite .hero-open-btn {
+            position:absolute;
+            left:50%;
+            top:22%;
+            bottom:auto;
+            transform:translateX(-50%);
+        }
+    }
     body.pre-invite .section { display:none; }
     body.pre-invite .music-toggle { display:none; }
     body.pre-invite .hero .title,
