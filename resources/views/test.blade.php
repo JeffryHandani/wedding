@@ -13,8 +13,9 @@
         .wrap { width:100%; max-width:none; margin:0; padding:0; }
         .desktop-left { display:none; }
         .hero { position:relative; text-align:center; width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); line-height:0; overflow:hidden; background:var(--bg1); }
-        .hero-mobile { position:relative; display:block; }
-        .hero-bg { width:100%; height:auto; display:block; }
+        .hero-mobile { position:relative; display:block; height:100vh; min-height:100vh; }
+        .hero-mobile picture { display:block; width:100%; height:100%; }
+        .hero-bg { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
         .hero-desktop { display:none; }
         .hero-left img, .hero-right-bg { width:100%; height:100%; object-fit:cover; display:block; }
         .hero-right { position:relative; overflow:hidden; }
@@ -120,18 +121,18 @@
             45% { transform:translateY(0) scale(1.05) rotate(1deg); filter:saturate(1.15); }
             100% { transform:none; filter:none; }
         }
-        #openGift.btn { margin-top:10px; min-width:188px; border-radius:16px; padding:13px 24px; letter-spacing:5px; border:1px solid #dd9fbb; color:#fff; background:linear-gradient(180deg,#ff85b3 0%, #e46196 100%); box-shadow:0 10px 22px rgba(204,88,137,0.35); font-weight:800; }
+        #openGift.btn { margin-top:10px; min-width:188px; border-radius:16px; padding:13px 24px; letter-spacing:5px; border:1px solid #cf8fad; color:#fff; background:linear-gradient(180deg,#d17aa2 0%, #b85d88 100%); box-shadow:0 10px 22px rgba(166,85,126,0.32); font-weight:800; }
         #openGift.btn:hover { filter:brightness(1.03); transform:translateY(-1px); }
         #openGift.btn:active { transform:translateY(0); }
         .wishes-wrap { max-width:560px; margin:0 auto; text-align:center; }
         .wishes-kicker { letter-spacing:6px; font-weight:700; font-size:0.92rem; margin-bottom:6px; color:#1f2330; text-transform:uppercase; }
         .wishes-title { font-family: Playfair Display, serif; font-size: clamp(3.2rem, 12vw, 4.8rem); letter-spacing:3px; margin-bottom:8px; color:#2b1e2b; line-height:1; }
-        .wishes-desc { color:#6f4f60; letter-spacing:3px; font-size:clamp(1.05rem, 3.2vw, 1.35rem); margin-bottom:18px; text-transform:uppercase; }
+        .wishes-desc { color:#6f4f60; letter-spacing:3px; font-size:12px; margin-bottom:18px; text-transform:uppercase; }
         .wishes-form label { display:block; text-align:left; letter-spacing:4px; font-weight:700; font-size:0.82rem; margin:14px 0 8px; color:#1f2330; text-transform:uppercase; }
         .wishes-form input, .wishes-form textarea { background:rgba(255,255,255,0.84); border:1px solid #f0d8e2; border-radius:12px; color:#202431; padding:10px 14px; margin:6px 0 10px; }
         .wishes-form input::placeholder, .wishes-form textarea::placeholder { color:#9ba7b5; letter-spacing:3px; text-transform:uppercase; }
-        .btn-teal { background:var(--teal); color:#fff; border-color:transparent; }
-        .wishes-form .btn-teal { display:block; margin:16px auto 0; min-width:170px; border-radius:16px; padding:12px 24px; letter-spacing:5px; background:rgba(255,255,255,0.92); color:#66707c; border:1px solid #efcfd9; }
+        .btn-teal { background:linear-gradient(180deg,#d17aa2 0%, #b85d88 100%); color:#fff; border-color:#cf8fad; }
+        .wishes-form .btn-teal { display:block; margin:16px auto 0; min-width:170px; border-radius:16px; padding:12px 24px; letter-spacing:5px; color:#fff; border:1px solid #9f5379; background:linear-gradient(180deg,#bf5f8e 0%, #9f3f6d 100%); box-shadow:0 10px 20px rgba(138,56,95,0.34); }
         .wishes-notice { color:var(--primary); margin-top:8px; }
         .wishes-list { max-width:520px; margin:16px auto 0; text-align:center; }
         .wishes-wrap hr { border:0; border-top:1px solid #eed6df; margin:16px 0 14px; }
@@ -146,24 +147,24 @@
         .wish-text { margin-top:4px; color:#111827; line-height:1.4; }
         .wish-time { margin-top:6px; color:#374151; font-size:0.95rem; }
         .wish-pagination { display:flex; align-items:center; justify-content:center; gap:10px; margin-top:14px; }
-        .wish-page-btn { border:1px solid #d9e1e7; background:#fff; color:#1f2937; border-radius:999px; padding:6px 12px; font-weight:600; cursor:pointer; }
+        .wish-page-btn { border:1px solid #e2bfd0; background:#fff8fc; color:#7a4e64; border-radius:999px; padding:6px 12px; font-weight:700; cursor:pointer; }
         .wish-page-btn:disabled { opacity:.45; cursor:not-allowed; }
         .wish-page-info { color:#4b5563; font-size:0.92rem; min-width:84px; text-align:center; }
         .rsvp-wrap { max-width:560px; margin:0 auto; text-align:center; }
         .rsvp-kicker { letter-spacing:4px; font-weight:700; font-size:0.9rem; margin-bottom:6px; }
         .rsvp-title { font-family: Playfair Display, serif; font-size: clamp(2.2rem, 7vw, 3.2rem); letter-spacing:4px; margin-bottom:8px; }
         .rsvp-desc { color:var(--muted); letter-spacing:2px; font-size:0.95rem; margin-bottom:16px; }
-        .rsvp-script { font-family: Great Vibes, Playfair Display, serif; font-size: clamp(3rem, 11vw, 4.1rem); color:#7a4e64; line-height:1.08; margin:0 0 18px; }
+        .rsvp-script { font-family: Great Vibes, Playfair Display, serif; font-size: 38px; color:#7a4e64; line-height:1.08; margin:0 0 18px; }
         .rsvp-form label { display:block; text-align:left; letter-spacing:4px; font-weight:700; font-size:0.82rem; margin:14px 0 8px; color:#1f2330; text-transform:uppercase; }
         .rsvp-form input, .rsvp-form select, .rsvp-form textarea { background:rgba(255,255,255,0.84); border:1px solid #f0d8e2; border-radius:12px; color:#202431; padding:10px 14px; margin:6px 0 10px; }
         .rsvp-form input::placeholder, .rsvp-form textarea::placeholder { color:#9ba7b5; letter-spacing:3px; text-transform:uppercase; }
         .rsvp-form .btn-teal { display:block; margin:16px auto 0; padding:12px 18px; letter-spacing:3px; text-transform:uppercase; border-radius:10px; }
         .rsvp-notice { color:var(--primary); margin-top:8px; }
         .attend-toggle { display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px; }
-        .attend-toggle .toggle { padding:8px 10px; border-radius:10px; border:1px solid #dbe2ea; background:rgba(255,255,255,0.9); letter-spacing:3px; font-weight:700; color:#6b7075; }
-        .attend-toggle .toggle.active { background:#8f9298; color:#fff; border-color:#8f9298; }
-        .btn-gray { background:#8f8f92; color:#fff; border-color:transparent; }
-        .rsvp-form .btn-gray { margin:16px auto 0; min-width:150px; border-radius:16px; padding:12px 24px; letter-spacing:5px; background:rgba(255,255,255,0.92); color:#66707c; border:1px solid #efcfd9; }
+        .attend-toggle .toggle { padding:8px 10px; border-radius:10px; border:1px solid #e2bfd0; background:#fff8fc; letter-spacing:3px; font-weight:700; color:#7a4e64; }
+        .attend-toggle .toggle.active { background:linear-gradient(180deg,#d17aa2 0%, #b85d88 100%); color:#fff; border-color:#cf8fad; }
+        .btn-gray { background:linear-gradient(180deg,#d17aa2 0%, #b85d88 100%); color:#fff; border-color:#cf8fad; }
+        .rsvp-form .btn-gray { margin:16px auto 0; min-width:150px; border-radius:16px; padding:12px 24px; letter-spacing:5px; color:#fff; border:1px solid #9f5379; background:linear-gradient(180deg,#bf5f8e 0%, #9f3f6d 100%); box-shadow:0 10px 20px rgba(138,56,95,0.34); }
         .section h2 { margin:0 0 10px; font-family:Cinzel, Playfair Display, serif; letter-spacing:4px; font-size:1.3rem; text-align:center; text-transform:uppercase; }
         .two { display:grid; grid-template-columns: 1fr 1fr; gap:28px; }
         @media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
@@ -192,8 +193,10 @@
         @media (max-width: 860px) { .proto { grid-template-columns: repeat(2, 1fr); } }
         .proto .p { text-align:center; border:1px solid var(--border); border-radius:16px; padding:18px; background:#fff; }
         .p .emoji { font-size:2rem; }
-        .btn { display:inline-block; padding:12px 18px; border-radius:12px; border:1px solid var(--border); background:#fff; text-decoration:none; color:#6b7075; font-weight:700; letter-spacing:4px; text-transform:uppercase; }
-        .btn-primary { background:linear-gradient(180deg, var(--primary) 0%, #9a234e 100%); color:#fff; border-color:transparent; }
+        .btn { display:inline-block; padding:12px 18px; border-radius:12px; border:1px solid #e2bfd0; background:#fff8fc; text-decoration:none; color:#7a4e64; font-weight:700; letter-spacing:4px; text-transform:uppercase; box-shadow:0 6px 14px rgba(166,85,126,0.12); transition:transform .15s ease, filter .15s ease; }
+        .btn:hover { filter:brightness(1.02); transform:translateY(-1px); }
+        .btn:active { transform:translateY(0); }
+        .btn-primary { background:linear-gradient(180deg,#d17aa2 0%, #b85d88 100%); color:#fff; border-color:#cf8fad; }
         .event-card { border:3px solid #ffffff; background: rgba(255,255,255,0.06); min-height:52vh; display:flex; align-items:center; justify-content:center; flex-direction:column; }
         .event-icon { width:104px; height:104px; margin-bottom:16px; padding:14px; border-radius:999px; background:linear-gradient(180deg,#fff9fb 0%, #fdeef4 100%); border:1px solid #efcfd9; box-shadow:0 8px 18px rgba(143,93,112,0.10); }
         .bg-events .card h3, .bg-events .venue, .bg-events .addr, .bg-events .start { color:#ffffff; }
@@ -230,7 +233,7 @@
         .page.right .sub { margin-top:8px; font-family:Poppins; color:#6b4c55; letter-spacing:4px; font-weight:700; text-align:center; }
         .book.open .page.left { animation: openLeft 1.2s cubic-bezier(.2,.8,.2,1) forwards; }
         .book.open .page.right { animation: openRight 1.2s cubic-bezier(.2,.8,.2,1) .05s forwards; }
-        .book-enter { margin-top:18px; padding:12px 18px; border-radius:999px; background:#b03060; color:#fff; border:none; font-weight:700; box-shadow:0 14px 30px rgba(176,48,96,0.3); letter-spacing:2px; }
+        .book-enter { margin-top:18px; padding:12px 18px; border-radius:999px; background:linear-gradient(180deg,#d17aa2 0%, #b85d88 100%); color:#fff; border:1px solid #cf8fad; font-weight:700; box-shadow:0 12px 26px rgba(166,85,126,0.32); letter-spacing:2px; }
         .book-enter:disabled { opacity:.55; cursor:not-allowed; box-shadow:none; }
         @keyframes openLeft { 0% { transform: rotateY(90deg);} 100% { transform: rotateY(0);} }
         @keyframes openRight { 0% { transform: rotateY(-90deg);} 100% { transform: rotateY(0);} }
@@ -265,13 +268,13 @@
     <canvas id="introCanvas"></canvas>
     <div class="desktop-left" aria-hidden="true"></div>
     <div id="bookIntro">
-        <video id="openingVideo" class="opening-video" autoplay muted playsinline preload="auto">
+        <video id="openingVideo" class="opening-video" autoplay muted playsinline webkit-playsinline preload="auto">
             <source src="/images/Tema-Blossom.mp4" type="video/mp4">
         </video>
         <div class="opening-overlay">
             <div class="opening-kicker">The Wedding Of</div>
             <div class="opening-names">{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</div>
-            <div class="opening-date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
+            <div class="opening-date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
             <div style="margin-top:14px;"><button id="bookEnter" class="book-enter">Enter</button></div>
         </div>
     </div>
@@ -303,7 +306,7 @@
                 <div class="hero-copy hero-copy-mobile">
                     <div class="title">The Wedding Of</div>
                     <div class="names">{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</div>
-                    <div class="date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
+                    <div class="date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
                 </div>
             </div>
         </div>
@@ -595,12 +598,21 @@
                 if(openingVideo){
                     setEnterReady(false);
                     bookIntro.classList.remove('show-names');
+                    openingVideo.muted = true;
+                    openingVideo.defaultMuted = true;
+                    openingVideo.autoplay = true;
+                    openingVideo.setAttribute('muted', '');
+                    openingVideo.setAttribute('playsinline', '');
+                    openingVideo.setAttribute('webkit-playsinline', '');
                     openingVideo.currentTime = 0;
-                    openingVideo.play().catch(()=>{
+                    const tryPlay = () => openingVideo.play().catch(()=>{
                         // If autoplay fails, allow manual proceed immediately.
                         bookIntro.classList.add('show-names');
                         setEnterReady(true);
                     });
+                    tryPlay();
+                    // Extra retry for mobile browsers that delay media start.
+                    setTimeout(()=>{ if(openingVideo.paused) tryPlay(); }, 250);
                 } else {
                     setTimeout(()=>{ bookIntro.classList.add('show-names'); }, 18000);
                     setEnterReady(true);

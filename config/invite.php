@@ -74,7 +74,7 @@ return [
     'gifts_modal' => [
         [
             'label' => 'BCA',
-            'logo' => '/images/bank_bca.svg',
+            'logo' => '/images/bca.png',
             'account_name' => 'Zefanya Priscilla',
             'account_number' => '6040325822',
             // 'qr_image' => '/images/qr_placeholder.svg',
