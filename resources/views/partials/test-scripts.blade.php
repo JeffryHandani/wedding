@@ -181,6 +181,8 @@
         let invitationOpened = false;
         let closed = false;
         let readyToEnter = false;
+        let introVideoInitialized = false;
+        let introVideoEnded = false;
         function setEnterReady(v){
             readyToEnter = !!v;
             if(bookEnter){ bookEnter.disabled = !readyToEnter; }
@@ -193,6 +195,7 @@
             if(openingVideo){
                 setEnterReady(false);
                 bookIntro.classList.remove('show-names');
+                openingVideo.loop = false;
                 // Best-effort autoplay (some phones require a user gesture even if muted).
                 openingVideo.muted = true;
                 openingVideo.defaultMuted = true;
@@ -243,18 +246,25 @@
                     });
                 };
 
-                // Reset playback safely (iOS can throw if currentTime is set too early).
-                try { openingVideo.pause(); } catch(_) {}
-                try { openingVideo.load(); } catch(_) {}
-                trySeekStart();
-                openingVideo.addEventListener('loadedmetadata', trySeekStart, { once:true });
-                openingVideo.addEventListener('canplay', ()=>{ if(openingVideo.paused) tryPlay('canplay'); });
-                document.addEventListener('visibilitychange', ()=>{
-                    if(document.hidden){
-                        try { openingVideo.pause(); } catch(_) {}
-                    }
-                });
-                tryPlay('init');
+                if(!introVideoInitialized){
+                    introVideoInitialized = true;
+                    // Initialize only once so the intro video never restarts automatically.
+                    try { openingVideo.pause(); } catch(_) {}
+                    try { openingVideo.load(); } catch(_) {}
+                    trySeekStart();
+                    openingVideo.addEventListener('loadedmetadata', trySeekStart, { once:true });
+                    openingVideo.addEventListener('canplay', ()=>{ if(!introVideoEnded && openingVideo.paused) tryPlay('canplay'); });
+                    document.addEventListener('visibilitychange', ()=>{
+                        if(document.hidden){
+                            try { openingVideo.pause(); } catch(_) {}
+                            return;
+                        }
+                        if(invitationOpened && !introVideoEnded && openingVideo.paused){
+                            tryPlay('resume');
+                        }
+                    });
+                    tryPlay('init');
+                }
             } else {
                 setTimeout(()=>{ bookIntro.classList.add('show-names'); }, 16000);
                 setEnterReady(true);
@@ -286,6 +296,7 @@
                 }
             });
             openingVideo.addEventListener('ended', ()=>{
+                introVideoEnded = true;
                 bookIntro.classList.add('show-names');
                 setEnterReady(true);
             });

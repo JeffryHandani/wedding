@@ -235,6 +235,12 @@
         min-width:220px;
         z-index:5;
     }
+    body.pre-invite .hero-open-btn {
+        position:fixed;
+        left:50%;
+        bottom:24px;
+        transform:translateX(-50%);
+    }
     body.pre-invite .section { display:none; }
     body.pre-invite .music-toggle { display:none; }
     body.pre-invite .hero .title,
