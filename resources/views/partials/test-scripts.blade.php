@@ -252,9 +252,7 @@
                 document.addEventListener('visibilitychange', ()=>{
                     if(document.hidden){
                         try { openingVideo.pause(); } catch(_) {}
-                        return;
                     }
-                    if(openingVideo.paused) tryPlay('vis');
                 });
                 tryPlay('init');
             } else {
