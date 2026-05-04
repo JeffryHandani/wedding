@@ -238,7 +238,7 @@
     body.pre-invite .hero-open-btn {
         position:fixed;
         left:50%;
-        bottom:24px;
+        bottom:150px;
         transform:translateX(-50%);
     }
     @media (min-width: 861px) {
