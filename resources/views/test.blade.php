@@ -349,7 +349,7 @@
                         <img src="{{ $invite['couple']['bride_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="{{ $invite['couple']['bride'] }} photo">
                     </div>
                     <div class="person-name">{{ $invite['couple']['bride'] }}</div>
-                    <div class="role">First Daughter of</div>
+                    <div class="role">Daughter of</div>
                     <div class="parents">{{ $invite['families']['bride_parents'][0] ?? '' }} & {{ $invite['families']['bride_parents'][1] ?? '' }}</div>
                 </div>
             </div>
@@ -367,7 +367,7 @@
 
         <div class="section bg-events floral-theme">
             <div class="events-title">The Wedding</div>
-            <div class="events-date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} • {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
+            <div class="events-date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
             <div class="two">
             @php $ev0 = $invite['events'][0] ?? null; $ev1 = $invite['events'][1] ?? null; @endphp
             @if($ev0)
