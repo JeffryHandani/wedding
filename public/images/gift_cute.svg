@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="420" viewBox="0 0 420 420" fill="none">
+  <defs>
+    <linearGradient id="boxBody" x1="58" y1="140" x2="360" y2="370" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF3FA"/>
+      <stop offset="1" stop-color="#FFDCEC"/>
+    </linearGradient>
+    <linearGradient id="lidTop" x1="64" y1="80" x2="350" y2="164" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF8FC"/>
+      <stop offset="1" stop-color="#FFCFE5"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="190" y1="120" x2="232" y2="366" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF7FB4"/>
+      <stop offset="1" stop-color="#D84B86"/>
+    </linearGradient>
+    <filter id="shadow" x="38" y="126" width="344" height="258" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#C35A8E" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+
+  <ellipse cx="210" cy="354" rx="136" ry="24" fill="#EEC7D9" opacity=".45"/>
+
+  <g filter="url(#shadow)">
+    <rect x="64" y="132" width="286" height="60" rx="14" fill="url(#lidTop)" stroke="#A85C80" stroke-width="4"/>
+    <rect x="58" y="178" width="302" height="176" rx="22" fill="url(#boxBody)" stroke="#A85C80" stroke-width="4"/>
+    <rect x="190" y="132" width="40" height="222" rx="8" fill="url(#ribbon)"/>
+    <path d="M210 132C198 102 170 90 144 98C170 110 188 124 196 142" stroke="#A85C80" stroke-width="4" stroke-linecap="round"/>
+    <path d="M210 132C222 102 250 90 276 98C250 110 232 124 224 142" stroke="#A85C80" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <path d="M90 214H328M90 236H328M90 258H328M90 280H328M90 302H328M90 324H328" stroke="#D7AEC2" stroke-width="2" opacity=".8"/>
+</svg>

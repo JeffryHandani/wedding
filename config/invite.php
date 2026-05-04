@@ -95,12 +95,12 @@ return [
     ],
     'languages' => ['en', 'id'],
     'assets' => [
-        'hero_desktop' => '/images/top_desktop.jpeg',
+        'hero_desktop' => '/images/top_desktop.jpg',
         'hero_mobile' => '/images/top.jpeg',
         'ornament_divider' => '/images/ornament_divider.svg',
         'icon_matrimony' => '/images/icon_rings.svg',
         'icon_reception' => '/images/icon_glasses.svg',
-        'gift_illustration' => '/images/gift_sketch.svg',
+        'gift_illustration' => '/images/gift_cute.svg',
         'scripture_bg' => '/images/scripture_bg.svg',
     ],
 ];
