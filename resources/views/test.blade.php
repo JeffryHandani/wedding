@@ -235,6 +235,18 @@
         .book.open .page.right { animation: openRight 1.2s cubic-bezier(.2,.8,.2,1) .05s forwards; }
         .book-enter { margin-top:18px; padding:12px 18px; border-radius:999px; background:linear-gradient(180deg,#d17aa2 0%, #b85d88 100%); color:#fff; border:1px solid #cf8fad; font-weight:700; box-shadow:0 12px 26px rgba(166,85,126,0.32); letter-spacing:2px; }
         .book-enter:disabled { opacity:.55; cursor:not-allowed; box-shadow:none; }
+        .music-toggle {
+            position:fixed; right:14px; bottom:18px; z-index:140;
+            width:48px; height:48px; border-radius:999px; border:1px solid #cf8fad;
+            background:linear-gradient(180deg,#d17aa2 0%, #b85d88 100%);
+            color:#fff; display:flex; align-items:center; justify-content:center;
+            box-shadow:0 12px 24px rgba(166,85,126,.35); cursor:pointer;
+        }
+        .music-toggle svg { width:22px; height:22px; display:block; fill:currentColor; }
+        .music-toggle.muted {
+            background:linear-gradient(180deg,#f4d3e1 0%, #e7b8cc 100%);
+            color:#7a4e64; border-color:#d8a9bf;
+        }
         @keyframes openLeft { 0% { transform: rotateY(90deg);} 100% { transform: rotateY(0);} }
         @keyframes openRight { 0% { transform: rotateY(-90deg);} 100% { transform: rotateY(0);} }
         .lang { text-align:center; margin-top:8px; }
@@ -266,6 +278,14 @@
 </head>
 <body>
     <canvas id="introCanvas"></canvas>
+    <audio id="bgMusic" loop preload="auto" autoplay>
+        <source src="/images/background-music.mp3" type="audio/mpeg">
+    </audio>
+    <button id="musicToggle" class="music-toggle" type="button" aria-label="Mute music" title="Mute music">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path id="musicIconPath" d="M14 3.23v17.54a1 1 0 0 1-1.64.77L7.6 17H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h3.6l4.76-4.54A1 1 0 0 1 14 3.23zM17.5 8.5a1 1 0 0 1 1.41 0A4.98 4.98 0 0 1 20.5 12a4.98 4.98 0 0 1-1.59 3.5 1 1 0 1 1-1.36-1.46A2.99 2.99 0 0 0 18.5 12a2.99 2.99 0 0 0-.95-2.04 1 1 0 0 1-.05-1.46z"/>
+        </svg>
+    </button>
     <div class="desktop-left" aria-hidden="true"></div>
     <div id="bookIntro">
         <video id="openingVideo" class="opening-video" autoplay muted playsinline webkit-playsinline preload="auto">
@@ -572,6 +592,68 @@
             window.setIntroAmbientAlpha = function(a){ ambientAlpha = a; };
             window.stopIntroAmbient = function(){ running = false; try { ctx.clearRect(0,0,w,h); } catch{} c.style.display = 'none'; };
             // draw();
+        })();
+        (function(){
+            const audio = document.getElementById('bgMusic');
+            const toggle = document.getElementById('musicToggle');
+            const iconPath = document.getElementById('musicIconPath');
+            if(!audio || !toggle) return;
+            audio.autoplay = true;
+            audio.volume = 0.55;
+            audio.muted = false;
+            let userActivated = false;
+            const iconOn = 'M14 3.23v17.54a1 1 0 0 1-1.64.77L7.6 17H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h3.6l4.76-4.54A1 1 0 0 1 14 3.23zM17.5 8.5a1 1 0 0 1 1.41 0A4.98 4.98 0 0 1 20.5 12a4.98 4.98 0 0 1-1.59 3.5 1 1 0 1 1-1.36-1.46A2.99 2.99 0 0 0 18.5 12a2.99 2.99 0 0 0-.95-2.04 1 1 0 0 1-.05-1.46z';
+            const iconMuted = 'M14 3.23v17.54a1 1 0 0 1-1.64.77L7.6 17H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h3.6l4.76-4.54A1 1 0 0 1 14 3.23zM17.71 8.29a1 1 0 0 1 0 1.42L15.41 12l2.3 2.29a1 1 0 1 1-1.42 1.42L14 13.41l-2.29 2.3a1 1 0 0 1-1.42-1.42l2.3-2.29-2.3-2.29a1 1 0 1 1 1.42-1.42L14 10.59l2.29-2.3a1 1 0 0 1 1.42 0z';
+
+            function setToggleState(){
+                const muted = audio.muted;
+                toggle.classList.toggle('muted', muted);
+                toggle.setAttribute('aria-label', muted ? 'Unmute music' : 'Mute music');
+                toggle.setAttribute('title', muted ? 'Unmute music' : 'Mute music');
+                if(iconPath){ iconPath.setAttribute('d', muted ? iconMuted : iconOn); }
+            }
+
+            function tryPlay(){
+                if(document.hidden) return;
+                let p;
+                try { p = audio.play(); } catch(_) { p = null; }
+                if(p && typeof p.catch === 'function'){
+                    p.catch(()=>{});
+                }
+            }
+
+            function startMusicFromGesture(){
+                userActivated = true;
+                audio.muted = false;
+                setToggleState();
+                tryPlay();
+            }
+
+            ['pointerdown','touchstart','mousedown','keydown'].forEach((ev)=>{
+                window.addEventListener(ev, startMusicFromGesture, { once:true, passive:true, capture:true });
+            });
+
+            toggle.addEventListener('click', ()=>{
+                userActivated = true;
+                audio.muted = !audio.muted;
+                setToggleState();
+                if(!audio.muted){ tryPlay(); }
+            });
+            window.startBackgroundMusic = startMusicFromGesture;
+
+            document.addEventListener('visibilitychange', ()=>{
+                if(document.hidden){
+                    audio.pause();
+                    return;
+                }
+                tryPlay();
+            });
+
+            window.addEventListener('focus', ()=>{ if(!document.hidden) tryPlay(); });
+            window.addEventListener('pageshow', ()=>{ if(!document.hidden) tryPlay(); });
+            setToggleState();
+            tryPlay();
+            [250, 800, 1600, 3200].forEach((ms)=> setTimeout(()=>{ if(audio.paused && !document.hidden) tryPlay(); }, ms));
         })();
         (function(){
             const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
