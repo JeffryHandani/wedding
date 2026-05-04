@@ -10,7 +10,7 @@
 </head>
 <body>
     <canvas id="introCanvas"></canvas>
-    <audio id="bgMusic" loop preload="auto" autoplay>
+    <audio id="bgMusic" loop preload="auto">
         <source src="/images/background-music.mp3" type="audio/mpeg">
     </audio>
     <button id="musicToggle" class="music-toggle" type="button" aria-label="Mute music" title="Mute music">
@@ -27,7 +27,6 @@
             <div class="opening-kicker">The Wedding Of</div>
             <div class="opening-names">{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</div>
             <div class="opening-date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
-            <div style="margin-top:14px;"><button id="bookEnter" class="book-enter">Enter</button></div>
         </div>
     </div>
     <div class="wrap">
@@ -60,6 +59,7 @@
                     <div class="names">{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</div>
                     <div class="date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
                 </div>
+                <button id="openInvitationBtn" type="button" class="btn btn-primary hero-open-btn">Open Invitation</button>
             </div>
         </div>
 
@@ -211,7 +211,7 @@
                             </div>
                         </div>
                     @empty
-                        <div class="wish wish-empty">No wishes found</div>
+                        {{-- <div class="wish wish-empty">No wishes found</div> --}}
                     @endforelse
                 </div>
                 <div id="wishPagination" class="wish-pagination" style="display:none;">

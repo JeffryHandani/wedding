@@ -105,7 +105,7 @@
         const toggle = document.getElementById('musicToggle');
         const iconPath = document.getElementById('musicIconPath');
         if(!audio || !toggle) return;
-        audio.autoplay = true;
+        audio.autoplay = false;
         audio.volume = 0.55;
         audio.muted = false;
         let userActivated = false;
@@ -139,10 +139,6 @@
             tryPlay();
         }
 
-        ['pointerdown','touchstart','mousedown','keydown'].forEach((ev)=>{
-            window.addEventListener(ev, startMusicFromGesture, { once:true, passive:true, capture:true });
-        });
-
         toggle.addEventListener('click', ()=>{
             userActivated = true;
             audio.muted = !audio.muted;
@@ -157,25 +153,32 @@
                 audio.pause();
                 return;
             }
-            tryPlay();
+            if(userActivated){ tryPlay(); }
         });
 
-        window.addEventListener('focus', ()=>{ if(!document.hidden) tryPlay(); });
-        window.addEventListener('pageshow', ()=>{ if(!document.hidden) tryPlay(); });
+        window.addEventListener('focus', ()=>{ if(!document.hidden && userActivated) tryPlay(); });
+        window.addEventListener('pageshow', ()=>{ if(!document.hidden && userActivated) tryPlay(); });
         setToggleState();
-        tryPlay();
-        [250, 800, 1600, 3200].forEach((ms)=> setTimeout(()=>{ if(audio.paused && !document.hidden) tryPlay(); }, ms));
     })();
     (function(){
         const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const hero = document.querySelector('.hero');
+        const openInvitationBtn = document.getElementById('openInvitationBtn');
+        if(document.body){ document.body.classList.add('pre-invite'); }
         if(prefersReduced){
             if(hero){ hero.classList.add('hero-seq'); }
+            if(openInvitationBtn){
+                openInvitationBtn.addEventListener('click', ()=>{
+                    if(document.body){ document.body.classList.remove('pre-invite'); }
+                    openInvitationBtn.style.display = 'none';
+                });
+            }
             return;
         }
         const bookIntro = document.getElementById('bookIntro');
         const openingVideo = document.getElementById('openingVideo');
         const bookEnter = document.getElementById('bookEnter');
+        let invitationOpened = false;
         let closed = false;
         let readyToEnter = false;
         function setEnterReady(v){
@@ -246,7 +249,13 @@
                 trySeekStart();
                 openingVideo.addEventListener('loadedmetadata', trySeekStart, { once:true });
                 openingVideo.addEventListener('canplay', ()=>{ if(openingVideo.paused) tryPlay('canplay'); });
-                document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && openingVideo.paused) tryPlay('vis'); });
+                document.addEventListener('visibilitychange', ()=>{
+                    if(document.hidden){
+                        try { openingVideo.pause(); } catch(_) {}
+                        return;
+                    }
+                    if(openingVideo.paused) tryPlay('vis');
+                });
                 tryPlay('init');
             } else {
                 setTimeout(()=>{ bookIntro.classList.add('show-names'); }, 16000);
@@ -283,7 +292,23 @@
                 setEnterReady(true);
             });
         }
-        setTimeout(showBook, 300);
+        if(openInvitationBtn){
+            openInvitationBtn.addEventListener('click', ()=>{
+                if(invitationOpened) return;
+                invitationOpened = true;
+                const wrap = document.querySelector('.wrap');
+                if(wrap && bookIntro && bookIntro.parentElement !== wrap){
+                    wrap.prepend(bookIntro);
+                }
+                if(document.body){
+                    document.body.classList.remove('pre-invite');
+                    document.body.classList.add('scrollable-video');
+                }
+                openInvitationBtn.style.display = 'none';
+                if(window.startBackgroundMusic){ window.startBackgroundMusic(); }
+                showBook();
+            });
+        }
         if(bookEnter){
             bookEnter.disabled = true;
             bookEnter.addEventListener('click', ()=>{
