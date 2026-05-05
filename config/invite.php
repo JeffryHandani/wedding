@@ -53,7 +53,7 @@ return [
         'video_embed_url' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
         'map_embed_url' => 'https://www.google.com/maps?q=Grand+Ballroom+Jakarta&output=embed',
         'gallery' => [
-            ['url' => '/images/gallery-1.jpeg', 'alt' => 'Gallery 1'],
+            ['url' => '/images/gallery-1.jpg', 'alt' => 'Gallery 1'],
             ['url' => '/images/gallery-2.jpg', 'alt' => 'Gallery 2'],
             ['url' => '/images/gallery-3.jpg', 'alt' => 'Gallery 3'],
             ['url' => '/images/gallery-4.jpg', 'alt' => 'Gallery 4'],
