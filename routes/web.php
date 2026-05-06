@@ -8,8 +8,10 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AdminController;
 
-Route::get('/', [InvitationController::class, 'test'])->name('invite');
-Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch');
+Route::redirect('/', '/en');
+Route::get('/{locale}', [InvitationController::class, 'test'])
+    ->where('locale', 'en|id')
+    ->name('invite');
 
 Route::post('/rsvp', [RSVPController::class, 'store'])->name('rsvp.store');
 Route::post('/wishes', [WishController::class, 'store'])->name('wishes.store');

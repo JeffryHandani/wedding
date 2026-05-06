@@ -13,13 +13,13 @@
             body: JSON.stringify(payload)
         }).then(r=>r.json()).then(res=>{
             if(res.ok){
-                noticeEl.textContent = 'Saved';
+                noticeEl.textContent = @json($t('saved'));
                 if(listUpdater) listUpdater(res);
                 formEl.reset();
             } else {
-                noticeEl.textContent = 'Failed';
+                noticeEl.textContent = @json($t('failed'));
             }
-        }).catch(()=>{ noticeEl.textContent = 'Error'; });
+        }).catch(()=>{ noticeEl.textContent = @json($t('error')); });
     }
     document.getElementById('rsvpForm').addEventListener('submit', function(e){
         e.preventDefault();
@@ -356,7 +356,7 @@
                 <div class="wish-body">
                     <div class="wish-head">
                         <span class="wish-name">${w.name || ''}</span>
-                        <span class="wish-badge${isAbsent ? ' absent' : ''}">${isAbsent ? 'Tidak Hadir' : 'Hadir'}</span>
+                        <span class="wish-badge${isAbsent ? ' absent' : ''}">${isAbsent ? @json($t('absent')) : @json($t('present'))}</span>
                     </div>
                     <div class="wish-text">${msg}</div>
                     <div class="wish-time">${timeText}</div>
@@ -417,10 +417,10 @@
         <div style="position:fixed; inset:0; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:1000;">
             <div style="background:#fff; width:92vw; max-width:620px; border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,0.2); overflow:hidden;">
                 <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 20px; border-bottom:1px solid #e7d7de;">
-                    <div style="font-family:Cinzel, Playfair Display, serif; letter-spacing:4px; font-size:1.6rem;">SEND GIFT</div>
+                    <div style="font-family:Cinzel, Playfair Display, serif; letter-spacing:4px; font-size:1.6rem;">{{ $t('send_gift_title') }}</div>
                     <button id="giftClose" style="border:none;background:none;font-size:1.4rem;line-height:1;color:#6b7075;">✕</button>
                 </div>
-                <div style="padding:14px 20px; color:#6b4c55; letter-spacing:1px;">Please scan the following QR code or copy the bank account number.</div>
+                <div style="padding:14px 20px; color:#6b4c55; letter-spacing:1px;">{{ $t('send_gift_desc') }}</div>
                 <div style="display:flex; gap:8px; padding:0 20px;">
                     @foreach(($invite['gifts_modal'] ?? []) as $i => $opt)
                     <button class="gift-tab{{ $i===0 ? ' active' : '' }}" data-index="{{ $i }}" style="flex:1; padding:10px; border:none; border-bottom:3px solid {{ $i===0 ? '#b03060' : '#e7d7de' }}; background:#fff; font-weight:700; letter-spacing:2px;">{{ $opt['label'] }}</button>
@@ -440,7 +440,7 @@
                     @endif
                     @if(!empty($first['account_number']))
                     <div id="giftAccount" style="margin-top:4px; letter-spacing:1px;">{{ $first['account_number'] }}</div>
-                    <button id="copyGift" class="btn" style="margin-top:12px;">Copy Number</button>
+                    <button id="copyGift" class="btn" style="margin-top:12px;">{{ $t('copy_number') }}</button>
                     @endif
                     @endif
                 </div>
@@ -482,7 +482,7 @@
                 ${o.logo ? `<img src="${o.logo}" alt="" style="max-width:240px; margin:10px auto;">` : ''}
                 ${o.qr_image ? `<img src="${o.qr_image}" alt="QR" style="width:220px; height:220px; object-fit:contain; margin:10px auto;">` : ''}
                 ${o.account_name ? `<div style="font-weight:700; margin-top:8px;">${o.account_name}</div>` : ''}
-                ${o.account_number ? `<div id="giftAccount" style="margin-top:4px; letter-spacing:1px;">${o.account_number}</div><button id="copyGift" class="btn" style="margin-top:12px;">Copy Number</button>` : ''}
+                ${o.account_number ? `<div id="giftAccount" style="margin-top:4px; letter-spacing:1px;">${o.account_number}</div><button id="copyGift" class="btn" style="margin-top:12px;">{{ $t('copy_number') }}</button>` : ''}
             `;
             const tabs = document.querySelectorAll('.gift-tab');
             tabs.forEach((t,idx)=>{
@@ -495,8 +495,8 @@
                     const num = document.getElementById('giftAccount')?.textContent || '';
                     if(num){
                         const ok = await copyText(num);
-                        cp.textContent = ok ? 'Copied' : 'Copy failed';
-                        setTimeout(()=>{ cp.textContent = 'Copy Number'; }, 1200);
+                        cp.textContent = ok ? @json($t('copied')) : @json($t('copy_failed'));
+                        setTimeout(()=>{ cp.textContent = @json($t('copy_number')); }, 1200);
                     }
                 };
             }
