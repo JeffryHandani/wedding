@@ -148,6 +148,9 @@
                     <img class="hero-bg" src="{{ $invite['assets']['hero_desktop'] ?? '/images/hero_bg.svg' }}" alt="Hero background">
                 </picture>
                 <div class="hero-copy hero-copy-mobile">
+                    @if(!empty($guestName))
+                        <div class="hero-guest">To: {{ $guestName }}</div>
+                    @endif
                     <div class="title">{{ $t('wedding_of') }}</div>
                     <div class="names">{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</div>
                     <div class="date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
@@ -243,7 +246,12 @@
                     </select>
                     <div id="guestsWrap">
                         <label>{{ $t('guests') }}</label>
-                        <input type="number" name="guests_count" placeholder="{{ $t('type_number') }}" value="1" min="1" max="20">
+                        <select name="guests_count" required>
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
                     </div>
                     <label>{{ $t('message') }}</label>
                     <textarea name="message" placeholder="{{ $t('optional_message') }}"></textarea>

@@ -16,6 +16,8 @@
     .date { margin-top:16px; letter-spacing:8px; font-weight:700; font-size:1.2rem; text-transform:uppercase; }
     .hero-copy { position:absolute; text-align:center; line-height:normal; z-index:2; }
     .hero-copy-mobile { left:50%; top:12%; transform:translate(-50%,-50%); width:94vw; }
+    .hero-copy-mobile .names { font-size:clamp(2.7rem, 11vw, 4.6rem); line-height:.95; }
+    .hero-guest { display:inline-block; padding:6px 12px; border-radius:999px; background:rgba(255,255,255,0.72); color:#6f4f60; font-size:.88rem; font-weight:600; letter-spacing:1px; margin-bottom:10px; }
     .hero-copy-desktop { left:50%; top:52%; transform:translate(-50%,-50%); width:88%; }
     .hero-copy-desktop .title { font-size:clamp(1rem, 1.3vw, 1.25rem); letter-spacing:3px; color:#8b646a; }
     .hero-copy-desktop .names { font-size:clamp(2.4rem, 4vw, 3.8rem); margin-top:8px; }
@@ -245,14 +247,14 @@
     body.pre-invite .hero-open-btn {
         position:fixed;
         left:50%;
-        bottom:150px;
+        top:150px;
         transform:translateX(-50%);
     }
     @media (min-width: 861px) {
         body.pre-invite .hero-open-btn {
             position:absolute;
             left:50%;
-            top:22%;
+            top:215px;
             bottom:auto;
             transform:translateX(-50%);
         }
