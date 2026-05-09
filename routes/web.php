@@ -23,3 +23,7 @@ Route::post('/admin/login', [AdminController::class, 'loginSubmit'])->name('admi
 Route::get('/admin/data', [AdminController::class, 'data'])->name('admin.data');
 Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 // Route::get('/test/{locale?}', [InvitationController::class, 'test'])->name('invite.test');
+
+Route::fallback(function () {
+    return redirect('/en');
+});
