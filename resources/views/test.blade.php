@@ -154,8 +154,8 @@
                     <div class="title">{{ $t('wedding_of') }}</div>
                     <div class="names">{{ $invite['couple']['groom'] }} & {{ $invite['couple']['bride'] }}</div>
                     <div class="date">{{ \Carbon\Carbon::parse($invite['event']['date'])->format('d') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('F') }} {{ \Carbon\Carbon::parse($invite['event']['date'])->format('Y') }}</div>
+                    <button id="openInvitationBtn" type="button" class="btn btn-primary hero-open-btn">{{ $t('open_invitation') }}</button>
                 </div>
-                <button id="openInvitationBtn" type="button" class="btn btn-primary hero-open-btn">{{ $t('open_invitation') }}</button>
             </div>
         </div>
 

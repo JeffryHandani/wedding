@@ -15,7 +15,7 @@
     .names { font-family: Great Vibes, Playfair Display, serif; font-size: clamp(3.4rem, 13vw, 7rem); line-height:1; color:#644E33; margin-top:12px; }
     .date { margin-top:16px; letter-spacing:8px; font-weight:700; font-size:1.2rem; text-transform:uppercase; }
     .hero-copy { position:absolute; text-align:center; line-height:normal; z-index:2; }
-    .hero-copy-mobile { left:50%; top:12%; transform:translate(-50%,-50%); width:94vw; }
+    .hero-copy-mobile { left:50%; top:15%; transform:translate(-50%,-50%); width:94vw; }
     .hero-copy-mobile .names { font-size:clamp(2.7rem, 11vw, 4.6rem); line-height:.95; }
     .hero-guest { display:inline-block; padding:6px 12px; border-radius:999px; background:rgba(255,255,255,0.72); color:#6f4f60; font-size:.88rem; font-weight:600; letter-spacing:1px; margin-bottom:10px; }
     .hero-copy-desktop { left:50%; top:52%; transform:translate(-50%,-50%); width:88%; }
@@ -237,29 +237,15 @@
     .book-enter { margin-top:18px; padding:12px 18px; border-radius:999px; background:linear-gradient(180deg,#d17aa2 0%, #b85d88 100%); color:#fff; border:1px solid #cf8fad; font-weight:700; box-shadow:0 12px 26px rgba(166,85,126,0.32); letter-spacing:2px; }
     .book-enter:disabled { opacity:.55; cursor:not-allowed; box-shadow:none; }
     .hero-open-btn {
-        position:absolute;
-        left:50%;
-        bottom:calc(20px + env(safe-area-inset-bottom));
-        transform:translateX(-50%);
+        position:relative;
+        left:auto;
+        bottom:auto;
+        transform:none;
+        margin-top:20px;
         min-width:220px;
         z-index:5;
     }
-    body.pre-invite .hero-open-btn {
-        position:fixed;
-        left:50%;
-        top:200px;
-        max-height: 40px;
-        transform:translateX(-50%);
-    }
-    @media (min-width: 861px) {
-        body.pre-invite .hero-open-btn {
-            position:absolute;
-            left:50%;
-            top:215px;
-            bottom:auto;
-            transform:translateX(-50%);
-        }
-    }
+    body.pre-invite .hero-open-btn { max-height:40px; }
     body.pre-invite .section { display:none; }
     body.pre-invite .music-toggle { display:none; }
     body.pre-invite .hero .title,
