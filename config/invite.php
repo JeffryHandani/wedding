@@ -13,6 +13,8 @@ return [
     'couple' => [
         'groom' => 'Jeffry',
         'bride' => 'Priscilla',
+        'groom_name' => 'Jeffry Handani',
+        'bride_name' => 'Zefanya Priscilla',
         'groom_photo' => '/images/groom.jpg',
         'bride_photo' => '/images/bride.jpg',
     ],

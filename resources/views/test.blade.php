@@ -168,7 +168,7 @@
                     <div class="person-photo">
                         <img src="{{ $invite['couple']['groom_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="{{ $invite['couple']['groom'] }} photo">
                     </div>
-                    <div class="person-name">{{ $invite['couple']['groom'] }}</div>
+                    <div class="person-name">{{ $invite['couple']['groom_name'] }}</div>
                     <div class="role">{{ $t('second_son_of') }}</div>
                     <div class="parents">{{ $invite['families']['groom_parents'][0] ?? '' }} & {{ $invite['families']['groom_parents'][1] ?? '' }}</div>
                 </div>
@@ -176,7 +176,7 @@
                     <div class="person-photo">
                         <img src="{{ $invite['couple']['bride_photo'] ?? ($invite['media']['hero_image_url'] ?? '/images/hero_bg.svg') }}" alt="{{ $invite['couple']['bride'] }} photo">
                     </div>
-                    <div class="person-name">{{ $invite['couple']['bride'] }}</div>
+                    <div class="person-name">{{ $invite['couple']['bride_name'] }}</div>
                     <div class="role">{{ $t('daughter_of') }}</div>
                     <div class="parents">{{ $invite['families']['bride_parents'][0] ?? '' }} & {{ $invite['families']['bride_parents'][1] ?? '' }}</div>
                 </div>
