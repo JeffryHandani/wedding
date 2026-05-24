@@ -82,6 +82,13 @@ return [
             // 'qr_image' => '/images/qr_placeholder.svg',
         ],
         [
+            'label' => 'BCA',
+            'logo' => '/images/bca.png',
+            'account_name' => 'Jeffry Handani',
+            'account_number' => '1630664272',
+            // 'qr_image' => '/images/qr_placeholder.svg',
+        ],
+        [
             'label' => 'TNG',
             'logo' => null,
             'account_name' => 'Jeffry Handani',
